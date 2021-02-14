@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Resume;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +19,10 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    
+    $resume = Resume::all();
+
+    return view('dashboard', ['resume' => $resume]);
 })->name('dashboard');
+
+
