@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="w-12/12 mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -15,8 +15,17 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         Главная
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('forms')">
+                    <x-jet-nav-link href="{{ route('resume.list') }}" :active="request()->routeIs('resume.list')">
+                        Резюме
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('forms.list') }}" :active="request()->routeIs('forms.list')">
                         Формы
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('interviews.list') }}" :active="request()->routeIs('interviews.list')">
+                        Собеседования
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('tariff.user.show') }}" :active="request()->routeIs('tariff.user.show')">
+                        Тариф
                     </x-jet-nav-link>
                 </div>
             </div>

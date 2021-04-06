@@ -20,7 +20,7 @@ class CreateCompaniesTable extends Migration
             $table->string('code');
             $table->boolean('is_active');
             $table->integer('sort');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
+            $table->integer('user_id')->index()->nullable();
             $table->foreignId('tariff_id')->references('id')->on('tariffs')->onDelete('cascade')->nullable();
         });
     }

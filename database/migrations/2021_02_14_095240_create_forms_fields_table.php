@@ -20,7 +20,10 @@ class CreateFormsFieldsTable extends Migration
             $table->text('description');
             $table->string('code');
             $table->smallinteger('type');
+            $table->smallinteger('step');
+            $table->smallinteger('size');
             $table->boolean('is_active');
+            $table->boolean('is_required');
             $table->integer('sort');
             $table->foreignId('form_id')->references('id')->on('forms')->onDelete('cascade')->nullable();
             $table->foreignId('company_id')->references('id')->on('companies')->onDelete('cascade')->nullable();

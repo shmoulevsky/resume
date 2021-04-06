@@ -19,6 +19,7 @@ class CreateResumeTable extends Migration
             $table->string('last_name');
             $table->string('name');
             $table->string('second_name');
+            $table->integer('photo_id')->index()->nullable();
             $table->char('phone', 20);
             $table->char('email', 30);
             $table->text('description');

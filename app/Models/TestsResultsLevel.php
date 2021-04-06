@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FormsFieldsVariant extends Model
+class TestsResultsLevel extends Model
 {
     use HasFactory;
 }
