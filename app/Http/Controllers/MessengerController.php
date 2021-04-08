@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\ESh\Telegram;
+use App\ESh\Viber;
 
 // https://api.telegram.org/bot1649266126:AAHDLr8R-aX3V-MyHg2s9SuM_DTLMxPodp8/setwebhook?url=https://resume.i-aos.ru/messengers/telegram/subscribe
 
@@ -50,10 +51,66 @@ class MessengerController extends Controller
         
     }
 
-    public function subscribeViber(){
+    public function viberWebhook(){
+            
+        $request = file_get_contents("php://input");
+        $input = json_decode($request, true);
 
+        if($input){
         
+        if($input['event'] == 'webhook') {
+            
+            $webhook_response['status'] = 0;
+            $webhook_response['status_message']="ok";
+            $webhook_response['event_types']='delivered';
         
+        }
+        else if($input['event'] == "subscribed") {
+            
+            $chatId = $input['sender']['id'];
+            Viber::sendMessage($chatId, [],'Для подписки введите текст email:ваш адрес электронной почты, например: email:ivanov@mail.ru');
+
+        }
+        else if($input['event'] == "conversation_started"){
+        
+        }
+        elseif($input['event'] == "message") {
+
+            $chatId = $input['sender']['id'];
+            $message = $input['message']['text'];
+
+            if (strstr($message, "email:")) {
+                
+                $email = explode(':', $message);
+                $user = User::where(['email' => $email[1]])->first();
+                
+                if($user){
+                    $user->viber = $chatId;
+                    $user->save();
+                    Viber::sendMessage($chatId, [], 'Вы успешно подписались на уведомления!');
+                }else{
+                    Viber::sendMessage($chatId, [],'E-mail не был найден');
+                }
+
+                
+            }else{
+                Viber::sendMessage($chatId, [],'Не известная команда');
+            }
+
+            
+          
+        }elseif($input['event'] == "Failed"){
+            
+        }
+
+        }
+        
+    }
+
+    public function setupViber(){
+
+        $result = Viber::setup();
+        dd($result);
     }
 
     

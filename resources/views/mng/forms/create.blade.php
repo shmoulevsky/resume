@@ -1,6 +1,6 @@
 @extends('mng.master')
 @section('title', 'Создание новой формы')
-@section('content')
+@section('content')<div class="mb-5">{{ Breadcrumbs::render('forms.create') }}</div>    
     
         <div class="resume-inner">
             
@@ -21,31 +21,7 @@
                         <input data-name="name" class="form-main-field" name="name" type="text" value="Продавец">
                     </div>
                     <p id="empty-form-text">Создайте свой первый вопрос!</p>
-                    <!-- 
-                    <div class="mb-5">
-                        <label for="">Вопрос:</label>
-                        <input data-type="1" data-id="100" data-step="1" data-sort="100" data-required="1" data-size="100" class="form-field" name="" type="text" value="Желаемый доход">
-                    </div>
-                    <div class="mb-5">
-                        <label for="">Вопрос:</label>
-                        <textarea data-type="2" data-id="101" data-step="1" data-sort="100" data-required="1" data-size="100" class="form-field" name="" >Опишите Ваш опыт продаж</textarea>
-                    </div>
-                    <div class="mb-5 ">
-                        <label for="">Вопрос:</label>
-                        <input data-type="3" data-id="102" data-step="1" data-sort="100" data-required="1" data-size="100" class="form-field" name="" type="text" value="Что по вашему является наиболее важным в продажах?">
-                        <div class="mt-1">
-                            <div class="flex">
-                                <label class="mb-1" for="">Варианты ответа:</label>
-                                <div class="">
-                                    <input data-id="103" data-points="10" data-field-id="102" data-sort="100" class="form-field-variant" class="" name="" type="text" value="коммуникация">
-                                    <input data-id="104" data-points="10" data-field-id="102" data-sort="100" class="form-field-variant" class="mt-1" name="" type="text" value="владение предметной областью">
-                                    <input data-id="105" data-points="10" data-field-id="102" data-sort="100" class="form-field-variant" class="mt-1" name="" type="text" value="внешний вид">
-                                </div>
-                            </div>
-                            
-                            
-                        </div>
-                    </div> -->
+                    
                 </div>
                 
 

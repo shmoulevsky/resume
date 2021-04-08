@@ -15,6 +15,27 @@
     padding-left: 5px;
 }
 
+.form-field{
+  position: relative;
+}
+
+.delete-field{  
+  width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  background-color: #ccc;
+  display: inline-block;
+  align-self: center;
+  justify-self: center;
+  position: absolute;
+  right: -20px;
+  top: 30px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 15px;
+  cursor: pointer;
+}
+
 .form-field-variant-wrap{
     width: 70%;
 }
@@ -254,6 +275,13 @@ button.swal2-styled.swal2-confirm{
 .change-points.active{
   background-color: #3b82f6;
   color: #fff;
+}
+
+.resume-photo-list{
+  width: 80px;
+  border-radius: 40px;
+  margin: 5px auto;
+  border: 1px solid #ccc;
 }
 
 @media screen and (max-width: 600px) {

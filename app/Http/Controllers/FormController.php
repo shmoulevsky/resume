@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
 
 
 use App\Mail\ResumeAdd;
@@ -204,6 +205,8 @@ class FormController extends BaseController
 
         if($user->viber){ 
             Viber::sendMessage($user->viber, 'Новое резюме от '.$resume->full_name.' / '.$resume->phone); 
+            $fileSize = File::size(public_path($path));
+            Viber::sendFile($user->viber , 'Резюме.pdf', $host.$path, $fileSize);
         }
       
 
@@ -215,8 +218,7 @@ class FormController extends BaseController
 
     public function index(){
         
-        Viber::sendMessage('jcpsjyoW66yBbcU7iD5qtA==jcpsjyoW66yBbcU7iD5qtA==',[],'Test'); 
-
+           
         $companyCode = Auth::user()->company->code;
         $forms = Form::where(['user_id' => Auth::id()])->orderBy('id','desc')->withCount('resume')->paginate(5); 
         
@@ -232,20 +234,38 @@ class FormController extends BaseController
         return view('mng.forms.create');
     }
 
-    public function edit(){
+    public function edit(Request $request, $id){
 
+        
+        $companyId = Auth::user()->company->id;
+        
+        $form = Form::where(['id' => $id, 'company_id' => $companyId])->first();
+        
+        if(empty($form)){
+            abort(404);
+        }
+
+        $formsField = FormField::where(['form_id' => $form->id])->get();
+
+        return view('mng.forms.edit', compact('form','formsField'));
     }
 
     public function store(Request $request){
-        //dd($request->post('fields'));
+        
         $userId = Auth::id();
         $companyId = Auth::user()->company->id;
 
         $arForm = $request->post('form');
         $arFields = $request->post('fields');
         $arFieldsVariant = $request->post('fieldsVariant');
+        $form_id = intval($request->post('form_id'));
 
-        $form = new Form();
+        if($form_id == 0){
+            $form = new Form();
+        }else{
+            $form = Form::find($form_id);
+        }
+        
         $form->name = $arForm['name'];
         $form->code = Helper::translit($arForm['name']);
         $form->is_active = 1;
@@ -256,7 +276,12 @@ class FormController extends BaseController
 
         foreach($arFields as $key => $arField){
 
-            $field = new FormField();
+            if(strstr($key, 'new')){
+                $field = new FormField();
+            }else{
+                $field = FormField::find($key);
+            }
+            
             $field->name = $arField['name'];
             $field->code = Helper::translit($arField['name']);
             $field->description = $arField['description'];
@@ -273,13 +298,18 @@ class FormController extends BaseController
 
             if($arField['type'] == 3){
 
-                foreach($arFieldsVariant as $arFieldVariant){
+                foreach($arFieldsVariant as $keyV => $arFieldVariant){
                     
                     if($arFieldVariant['field_id'] == $key){
 
                         if($arFieldVariant['name'] != ''){
-                        
-                            $fieldVariant = new FormFieldVariant();
+                            
+                            if(strstr($keyV, 'new')){
+                                $fieldVariant = new FormFieldVariant();
+                            }else{
+                                $fieldVariant = FormFieldVariant::find($keyV);
+                            }
+                            
                             $fieldVariant->name = $arFieldVariant['name'];
                             $fieldVariant->description = $arFieldVariant['description'];
                             $fieldVariant->points = $arFieldVariant['points'];

@@ -12,6 +12,11 @@
     border-color: #34d399;
 }
 
+.status-field.active.test, .status-field.test:hover{
+    background-color: #0dcef0;
+    border-color: #0dcef0;
+}
+
 .status-field.active.interview, .status-field.interview:hover{
     background-color: #3b82f6;
     border-color: #3b82f6;
@@ -32,26 +37,31 @@
     cursor: pointer;   
 }
 
-.status-column-title.not, .resume-item .num.not{
+.status-column-title.not, .status-column-wrap.not .num{
     background-color: #d1d5db;
 }
 
-.status-column-title.inwork, .resume-item .num.inwork{
+.status-column-title.inwork, .status-column-wrap.inwork .num{
     background-color: #34d399;
     border-color: #34d399;
 }
 
-.status-column-title.interview, .resume-item .num.interview{
+.status-column-title.test, .status-column-wrap.test .num{
+    background-color: #0dcef0;
+    border-color: #0dcef0;
+}
+
+.status-column-title.interview, .status-column-wrap.interview .num{
     background-color: #3b82f6;
     border-color: #3b82f6;
 }
 
-.status-column-title.employment, .resume-item .num.employment{
+.status-column-title.employment, .status-column-wrap.employment .num{
     background-color: #f59a23;
     border-color: #f59a23;
 }
 
-.status-column-title.reject, .resume-item .num.reject{
+.status-column-title.reject, .status-column-wrap.reject .num{
     background-color: #ef4444;
     border-color: #ef4444;
 }
@@ -286,9 +296,23 @@ table.education-table .period, .experience-table .period{
     padding: 1rem;
     color: #111;
     font-size: 14px;
-    text-decoration: underline;
     position: relative;
     padding-left: 35px;
+    display: flex;
+    align-items:flex-start;
+    align-content:flex-start;
+}
+
+.resume-item img{
+    border-radius: 15px;
+    margin-right: 5px;
+    width: 30px;
+}
+
+.resume-item .phone{
+    text-decoration: none;
+    color: #bbb;
+    font-size: 12px;
 }
 
 .resume-item .title{

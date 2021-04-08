@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\FormsFieldController;
 use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\InterviewController;
@@ -48,6 +49,8 @@ Route::post('/tests/finish', [TestController::class, 'finish'])->name('tests.fin
 
 /**Messangers */
 Route::post('/messengers/telegram/subscribe', [MessengerController::class, 'subscribeTelegram']);
+Route::post('/messengers/viber/webhook', [MessengerController::class, 'viberWebhook']);
+Route::get('/messengers/viber/setup', [MessengerController::class, 'setupViber']);
 
 /**Auth */
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -68,6 +71,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/mng/forms/delete/{id}', [FormController::class, 'delete'])->name('forms.delete');
     Route::get('/mng/forms/create', [FormController::class, 'create'])->name('forms.create');
     Route::post('/mng/forms/store', [FormController::class, 'store'])->name('forms.store');
+    Route::get('/mng/forms/edit/{id}', [FormController::class, 'edit'])->name('forms.edit');
+    
+    Route::get('/mng/fields/delete/{id}', [FormsFieldController::class, 'delete'])->name('forms.field.delete');
 
     Route::get('/mng/interviews/show', [InterviewController::class, 'index'])->name('interviews.list');
     Route::get('/mng/interviews/show/{id}', [InterviewController::class, 'show'])->name('interviews.detail');

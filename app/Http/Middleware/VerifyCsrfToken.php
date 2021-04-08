@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/messengers/telegram/subscribe'
+        '/messengers/telegram/subscribe',
+        '/messengers/viber/setup',
+        '/messengers/viber/webhook',
     ];
 }

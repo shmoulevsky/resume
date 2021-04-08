@@ -16,6 +16,18 @@ Breadcrumbs::for('forms.detail', function ($trail, $form) {
     $trail->push($form->name, route('forms.detail', $form->id));
 });
 
+// Forms create
+Breadcrumbs::for('forms.create', function ($trail) {
+    $trail->parent('forms.list');
+    $trail->push('Создание формы', route('forms.create'));
+});
+
+// Forms create
+Breadcrumbs::for('forms.edit', function ($trail, $form) {
+    $trail->parent('forms.list');
+    $trail->push('Редактирование формы «‎'.$form->name.'»', route('forms.edit', $form->id));
+});
+
 // Resume
 Breadcrumbs::for('resume.list', function ($trail) {
     $trail->parent('dashboard');

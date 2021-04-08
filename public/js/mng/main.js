@@ -18,7 +18,10 @@ $(function(){
 				if( data['status'] == "success" ) {
 					
 					$('.status-field').removeClass('active');
-					el.addClass('active');
+					if(el){
+						el.addClass('active');
+					}
+					
 				
 				} 
 			},
@@ -29,6 +32,20 @@ $(function(){
 
 
 	}
+
+	$('#status-column-not,#status-column-inwork,#status-column-test,#status-column-interview,#status-column-employment,#status-column-reject').sortable({
+
+		connectWith: '.status-column',
+		receive: function(event, ui) {
+		  
+		let resume_id = ui.item[0].dataset.id;
+	   	let status_id = ui.item[0].parentElement.dataset.status;
+		changeStatus(resume_id, status_id, null);
+		  
+	  }
+  	}).disableSelection();
+  
+  
 
 	$('.date-time').datetimepicker({
 		format: 'd.m.Y H:i',
@@ -63,6 +80,42 @@ $(function(){
 
 	});
 
+	$(document).on("click", ".delete-field", function (e) {
+		
+		let id = $(this).data('id');
+		CommonMessage.show('Подтвердите удаление поля. Все ответы на данный вопрос также будут удалены.', '<a class="delete-field-confirm inline-block my-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mr-2 rounded mb-6 mr-5" data-id="'+id+'" href="#">Удалить</a><a id="close-message-btn" class="close-btn" href="#">Отмена</a>', 20);
+		e.preventDefault();
+
+	});
+
+	$(document).on("click", ".delete-field-confirm", function (e) {
+		
+		
+		let id = $(this).data('id');
+
+		$.ajax({
+			url: '/mng/fields/delete/' + id,
+			type: "GET",
+			data: {
+				'_token' : $('meta[name="csrf-token"]').attr('content')
+			},
+			dataType : 'json',
+			success: function(data){
+				
+				if( data['status'] == "deleted" ) {
+					
+					$('.field-wrap[data-id='+id+']').remove();					
+					CommonMessage.hide();
+				} 
+			},
+			error : function(e) {
+				console.log(e);
+			}
+		});
+		e.preventDefault();
+
+	});
+
 	$(document).on("click", "#close-message-btn", function (e) {
 
 		CommonMessage.hide();
@@ -86,7 +139,7 @@ $(function(){
 	$(document).on("click", ".plus-form-field-variant", function () {
 		
 		const form_id = $(this).data('form-id');;
-		let html = `<div class="flex"><input data-id="${currentId}" data-points="10" data-field-id="${form_id}" data-sort="100" class="form-field-variant mt-1" name="" type="text" value=""><input  class="form-field-variant-points mt-1" type="text" data-field-variant-id="${currentId}" value="10"></div>`;
+		let html = `<div class="flex"><input data-id="new-${currentId}" data-points="10" data-field-id="${form_id}" data-sort="100" class="form-field-variant mt-1" name="" type="text" value=""><input  class="form-field-variant-points mt-1" type="text" data-field-variant-id="new-${currentId}" value="10"></div>`;
 		$(this).parent().find('.form-field-variant-wrap').append(html);
 		currentId++;
 
@@ -109,13 +162,13 @@ $(function(){
 		
 		switch (type) {
 			case 1:
-				html = `<label class="question-title" for="">Вопрос:</label><span class="question-required">Обязательный</span><input data-type="1" data-id="${currentId}" data-step="1" data-sort="100" data-required="0" data-size="100" class="form-field" name="" type="text" value="">`;
+				html = `<label class="question-title" for="">Вопрос:</label><span class="question-required">Обязательный</span><input data-type="1" data-id="new-${currentId}" data-step="1" data-sort="100" data-required="0" data-size="100" class="form-field" name="" type="text" value="">`;
 				break;
 			case 2:
-				html = `<label class="question-title" for="">Вопрос:</label><span class="question-required">Обязательный</span><textarea data-type="2" data-id="${currentId}" data-step="1" data-sort="0" data-required="0" data-size="100" class="form-field" name="" ></textarea>`;
+				html = `<label class="question-title" for="">Вопрос:</label><span class="question-required">Обязательный</span><textarea data-type="2" data-id="new-${currentId}" data-step="1" data-sort="0" data-required="0" data-size="100" class="form-field" name="" ></textarea>`;
 				break;
 			case 3:
-				html = `<label class="question-title" for="">Вопрос:</label><span class="question-required">Обязательный</span><input data-type="3" data-id="${currentId}" data-step="1" data-sort="100" data-required="0" data-size="100" class="form-field" name="" type="text" value=""><div class="mt-1 relative"><span data-form-id="${currentId}" class="plus-form-field-variant">+</span><div class="flex relative"><label class="mb-1" for="">Варианты ответа:</label><div class="form-field-variant-wrap"><div class="flex"><input data-id="${currentId+1}" data-points="10" data-field-id="${currentId}" data-sort="100" class="form-field-variant mt-1" name="" type="text" value=""><input  class="form-field-variant-points mt-1" type="text" data-field-variant-id="${currentId+1}" value="10"></div><div class="flex"><input data-id="${currentId+2}" data-points="10" data-field-id="${currentId}" data-sort="100" class="form-field-variant mt-1"  name="" type="text" value=""><input  class="form-field-variant-points mt-1" type="text" data-field-variant-id="${currentId+2}" value="10"></div></div></div>`;
+				html = `<label class="question-title" for="">Вопрос:</label><span class="question-required">Обязательный</span><input data-type="3" data-id="new-${currentId}" data-step="1" data-sort="100" data-required="0" data-size="100" class="form-field" name="" type="text" value=""><div class="mt-1 relative"><span data-form-id="new-${currentId}" class="plus-form-field-variant">+</span><div class="flex relative"><label class="mb-1" for="">Варианты ответа:</label><div class="form-field-variant-wrap"><div class="flex"><input data-id="new-${currentId+1}" data-points="10" data-field-id="new-${currentId}" data-sort="100" class="form-field-variant mt-1" name="" type="text" value=""><input  class="form-field-variant-points mt-1" type="text" data-field-variant-id="new-${currentId+1}" value="10"></div><div class="flex"><input data-id="new-${currentId+2}" data-points="10" data-field-id="new-${currentId}" data-sort="100" class="form-field-variant mt-1"  name="" type="text" value=""><input  class="form-field-variant-points mt-1" type="text" data-field-variant-id="new-${currentId+2}" value="10"></div></div></div>`;
 				currentId = currentId + 2;
 
 				break;	
@@ -167,7 +220,7 @@ $(function(){
         document.body.removeChild(textArea);
 	});
 
-    $(".store-form-btn").click(function(e){		
+    $(".store-form-btn, .update-form-btn").click(function(e){		
 	
 		let formData = {};
 		let fieldsMain = {};
@@ -180,7 +233,12 @@ $(function(){
 
         let _token   = $('meta[name="csrf-token"]').attr('content');
 
-		
+		let url = "/mng/forms/store";
+
+		if($(this).hasClass('update-form-btn')){
+			formData.form_id = $('#fid').val();
+		}
+				
 		$('.form-err').fadeOut();
 
 		$( ".form-main-field" ).each(function( index ) {
@@ -225,7 +283,7 @@ $(function(){
 		if(arErr.length == 0 && !hasErr){
 
 		$.ajax({
-			url: "/mng/forms/store",
+			url: url,
 			type: "POST",
 			data: formData,
 			dataType : 'json',

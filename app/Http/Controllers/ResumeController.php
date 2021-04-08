@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 use App\Models\File;
 use App\Models\Form;
@@ -24,9 +25,17 @@ class ResumeController extends BaseController
 {
     public function index(){
 
-        
+        $currentRoute = Route::currentRouteName();
+                
         $resumes = Resume::where(['user_id' => Auth::id()])->orderBy('id','desc')->with(['form'])->paginate(5); 
-        return view('mng.resume.list', ['resumes' => $resumes]);
+        
+        //dd($resumes->pluck('id')->toArray());
+
+        $photos = DB::table('files')->join('resume', 'resume.id', '=', 'files.fileable_id')->select('files.url', 'files.name', 'resume.id')->whereIn('resume.id',  $resumes->pluck('id')->toArray())->get()->mapWithKeys(function($photo, $key) {
+            return [$photo->id => $photo];
+        });
+       
+        return view('mng.resume.list', compact('resumes','photos','currentRoute'));
 
     }
 
@@ -35,9 +44,14 @@ class ResumeController extends BaseController
         $resumeStatuses = ResumeStatus::all();
         
         $resumes = Resume::where(['user_id' => Auth::id()])->orderBy('id','desc')->with(['form'])->get()->groupBy('resume_status_id');
-       
-               
-        return view('mng.resume.canban', compact('resumes', 'resumeStatuses'));
+                
+        $photos = DB::table('files')->join('resume', 'resume.id', '=', 'files.fileable_id')->select('files.url', 'files.name', 'resume.id')->where(['resume.user_id' => Auth::id()])->get()->mapWithKeys(function($photo, $key) {
+            return [$photo->id => $photo];
+        });
+        
+        $currentRoute = Route::currentRouteName();
+
+        return view('mng.resume.canban', compact('resumes', 'resumeStatuses', 'photos','currentRoute'));
 
     }
 

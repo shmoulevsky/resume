@@ -1,11 +1,6 @@
 @extends('mng.master')
 @section('title', 'Список форм')
 @section('content')
-@if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-@endif
 <div class="mb-5">{{ Breadcrumbs::render('forms.list', $forms) }}</div>
 
             <a href="{{route('forms.create')}}"  class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6">Создать новую запись</a>
@@ -43,6 +38,7 @@
                         
                         <td class="border px-4 py-2">
                             <a target="_blank" href="{{route('resume.public.create', ['company' => $companyCode ,'id' => $form->id])}}">Просмотр формы</a><br>
+                            <a href="{{route('forms.edit', ['id' => $form->id])}}">Редактировать</a>
                             <a class="delete-item" data-url="{{route('forms.delete', ['id' => $form->id])}}" href="#">Удалить</a>
                         </td>
 
