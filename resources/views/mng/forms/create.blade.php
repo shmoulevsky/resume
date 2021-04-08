@@ -18,7 +18,7 @@
                     
                     <div class="mb-5">
                         <label for="">Вакансия</label>
-                        <input data-name="name" class="form-main-field" name="name" type="text" value="Продавец">
+                        <input data-name="name" class="form-main-field" name="name" placeholder="введите название вакансии, например: Продавец" type="text" value="">
                     </div>
                     <p id="empty-form-text">Создайте свой первый вопрос!</p>
                     
