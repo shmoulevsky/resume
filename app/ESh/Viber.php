@@ -39,7 +39,7 @@ class Viber
       
       $data['url'] = config('app.url').'/messengers/viber/webhook';
       $data['event_types'] = ['delivered','seen','failed','subscribed', 'unsubscribed', 'conversation_started'];
-
+      
       return self::callApi('set_webhook', $data);
 
     }
@@ -63,7 +63,7 @@ class Viber
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       $result = curl_exec($ch);
       curl_close($ch); 
-
+      
       return $result;
 	  
     }

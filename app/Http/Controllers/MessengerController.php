@@ -75,11 +75,11 @@ class MessengerController extends Controller
 
     public function viberWebhook(){
         
+        $request = file_get_contents("php://input");
+        $input = json_decode($request, true);
+        
         try{
-
-            $request = file_get_contents("php://input");
-            $input = json_decode($request, true);
-
+            
             if($input){
             
                 if($input['event'] == 'webhook') {
@@ -115,24 +115,24 @@ class MessengerController extends Controller
                             if($userOld){
 
                                 if($userOld->id == $user->id){
-                                    Viber::sendMessage($chatId, [], 'Вы были подписаны ранее!');
+                                    Viber::sendMessage($chatId, 'Вы были подписаны ранее!');
                                 }else{
-                                    Viber::sendMessage($chatId, [], 'Данный viber аккаунт уже используется другим пользователем!');
+                                    Viber::sendMessage($chatId, 'Данный viber аккаунт уже используется другим пользователем!');
                                 }
                                 
                             }else{
                                 $user->viber = $chatId;
                                 $user->save();
-                                Viber::sendMessage($chatId, [], 'Вы успешно подписались на уведомления!');
+                                Viber::sendMessage($chatId, 'Вы успешно подписались на уведомления!');
                             }
                             
                         }else{
-                            Viber::sendMessage($chatId, [],'E-mail не был найден');
+                            Viber::sendMessage($chatId, 'E-mail не был найден');
                         }
 
                         
                     }else{
-                        Viber::sendMessage($chatId, [],'Не известная команда');
+                        Viber::sendMessage($chatId, 'Не известная команда');
                     }
 
                     
