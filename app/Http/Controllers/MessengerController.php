@@ -38,7 +38,7 @@ class MessengerController extends Controller
                         if($userOld){
                             
                             if($userOld->id == $user->id){
-                                Telegram::sendMessageProxy($chatId, 'Выбыли подписаны ранее!');
+                                Telegram::sendMessageProxy($chatId, 'Вы были подписаны ранее!');
                             }else{
                                 Telegram::sendMessageProxy($chatId, 'Данный телеграмм аккаунт уже используется другим пользователем!');
                             }
@@ -115,7 +115,7 @@ class MessengerController extends Controller
                             if($userOld){
 
                                 if($userOld->id == $user->id){
-                                    Viber::sendMessage($chatId, [], 'Выбыли подписаны ранее!');
+                                    Viber::sendMessage($chatId, [], 'Вы были подписаны ранее!');
                                 }else{
                                     Viber::sendMessage($chatId, [], 'Данный viber аккаунт уже используется другим пользователем!');
                                 }

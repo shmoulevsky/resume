@@ -193,7 +193,7 @@ class FormController extends BaseController
         //send to telegram
         if($user->telegram){
 
-            $host = 'http://resume.i-aos.ru';
+            $host = config('app.url');
             $pdf_name = $resume->id.time().".pdf";
             $path = '/upload/pdf/resume/'.$pdf_name;
             $pdf->save(public_path($path));
@@ -217,8 +217,7 @@ class FormController extends BaseController
     }
 
     public function index(){
-        
-           
+                
         $companyCode = Auth::user()->company->code;
         $forms = Form::where(['user_id' => Auth::id()])->orderBy('id','desc')->withCount('resume')->paginate(5); 
         

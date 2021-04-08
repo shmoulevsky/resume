@@ -6,7 +6,6 @@ class Telegram
 
 static $debugId = '462136229';
 static $siteId = 'Resume';
-static $url = "http://w48479.hostch01.fornex.org/resume/index.php";
 
 public static function debug($varName, $var){
     CTelegram::sendMessageProxy(self::$debugId,'#'.self::$siteId.'#  '.$varName.' = '.$var);
@@ -15,7 +14,7 @@ public static function debug($varName, $var){
 
 public static function sendMessageProxy($chatID, $message) {
     
-    $url = self::$url."?id=".$chatID;
+    $url = config('messengers.telegramurl')."?id=".$chatID;
     $url = $url . "&message=". urlencode($message);
     $url = $url . "&code=dRbdqVO1CJLCuAMTAlJ5g1X0KI5nsJsOhTNuBkINQBGUVljo7B";
     
@@ -35,7 +34,7 @@ public static function sendMessageProxy($chatID, $message) {
 
 public static function sendFile($chatID, $file) {
     
-    $url = self::$url."?id=".$chatID;
+    $url = config('messengers.telegramurl')."?id=".$chatID;
     $url = $url . "&file=".($file);
     $url = $url . "&code=g1X0KI5nsJsOVljo7BdRbhTNuBkINQBGUdqVO1CJLCuAMTAlJ5";
     
