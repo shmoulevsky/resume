@@ -149,7 +149,7 @@ class FormController extends BaseController
                 $answer = new FormAnswer();
                 $answer->sort = 100;
                 $answer->points = $points;
-                $answer->answer = $field;
+                $answer->answer = nl2br($field);
                 $answer->is_active = 1;
                 $answer->resume_id = $resume->id;
                 $answer->forms_fields_variants_id = $fieldVariantId;
