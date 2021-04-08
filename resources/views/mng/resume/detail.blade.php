@@ -44,18 +44,19 @@
 
             <div class="block mt-12">
             @foreach($formFields as $key => $field)
+            @isset($field->answers->first()->id)
             @switch($field->type)
                 @case(1)
                     <div class="my-6">
                         <span class="text-xl my-2 block font-bold text-gray-400">{{$key+1}}. {{$field->name}} ({{$field->answers->first()->points}} {{Helper::declOfNum($field->answers->first()->points, ['балл','балла','баллов'])}}):</span>
-                        <span class="text-xl my-2 block">{{$field->answers->first()->answer}}</span>
+                        <span class="text-xl my-2 block">{!!$field->answers->first()->answer!!}</span>
                         <div class="points-field-wrap"><input data-id="{{$field->answers->first()->id}}" value="{{$field->answers->first()->points}}" class="points-field" type="text"><span>{{Helper::declOfNum($field->answers->first()->points, ['балл','балла','баллов'])}}</span> (введите от 0 до 100)</div>
                     </div>
                     @break
                 @case(2)
                     <div class="my-6">
                         <span class="text-xl my-2 block font-bold text-gray-400">{{$key+1}}. {{$field->name}} ({{$field->answers->first()->points}} {{Helper::declOfNum($field->answers->first()->points, ['балл','балла','баллов'])}}):</span>
-                        <span class="text-xl my-2 block">{{$field->answers->first()->answer}}</span>
+                        <span class="text-xl my-2 block">{!!$field->answers->first()->answer!!}</span>
                         <div class="points-field-wrap"><input data-id="{{$field->answers->first()->id}}" value="{{$field->answers->first()->points}}" class="points-field" type="text"><span>{{Helper::declOfNum($field->answers->first()->points, ['балл','балла','баллов'])}}</span> (введите от 0 до 100)</div>
                     </div>
                     @break
@@ -72,7 +73,7 @@
 
                     
             @endswitch
-       
+            @endisset
             @endforeach
             <input type="hidden" id="fid" value="{{$form->id}}">
            

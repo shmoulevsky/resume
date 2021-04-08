@@ -103,17 +103,18 @@
             @endif
             <div class="block mt-12">
             @foreach($data['formFields'] as $key => $field)
+            @isset($field->answers->first()->id)
             @switch($field->type)
                 @case(1)
                     <div class="my-6">
                         <span class="text-xl my-2 block font-bold text-gray-400">{{$key+1}}. {{$field->name}}:</span>
-                        <span class="text-xl my-2 block">{{$field->answers->first()->answer}}</span>
+                        <span class="text-xl my-2 block">{!!$field->answers->first()->answer!!}</span>
                     </div>
                     @break
                 @case(2)
                     <div class="my-6">
                         <span class="text-xl my-2 block font-bold text-gray-400">{{$key+1}}. {{$field->name}}:</span>
-                        <span class="text-xl my-2 block">{{$field->answers->first()->answer}}</span>
+                        <span class="text-xl my-2 block">{!!$field->answers->first()->answer!!}</span>
                     </div>
                     @break
                  @case(3)
@@ -128,7 +129,7 @@
 
                     
             @endswitch
-       
+            @endisset
             @endforeach
            
            
