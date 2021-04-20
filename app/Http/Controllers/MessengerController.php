@@ -15,152 +15,123 @@ use App\ESh\Viber;
 
 class MessengerController extends Controller
 {
-    public function subscribeTelegram(){
+    public function subscribeTelegram()
+    {
 
-        try{
+        try {
 
             $input = json_decode(file_get_contents("php://input"), TRUE);
-            
-            if($input){
-    
+
+            if ($input) {
+
                 $chatId = $input["message"]["chat"]["id"];
                 $message = $input["message"]["text"];
-    
+
                 if (strstr($message, "email:")) {
-                    
+
                     $email = explode(':', $message);
                     $user = User::where(['email' => $email[1]])->first();
-                    
-                    if($user){
+
+                    if ($user) {
 
                         $userOld = User::where(['telegram' => $chatId])->first();
 
-                        if($userOld){
-                            
-                            if($userOld->id == $user->id){
+                        if ($userOld) {
+
+                            if ($userOld->id == $user->id) {
                                 Telegram::sendMessageProxy($chatId, 'Вы были подписаны ранее!');
-                            }else{
+                            } else {
                                 Telegram::sendMessageProxy($chatId, 'Данный телеграмм аккаунт уже используется другим пользователем!');
                             }
-                            
-
-                        }else{
+                        } else {
                             $user->telegram = $chatId;
                             $user->save();
                             Telegram::sendMessageProxy($chatId, 'Вы успешно подписались на уведомления!');
                         }
-
-                        
-                    }else{
+                    } else {
                         Telegram::sendMessageProxy($chatId, 'E-mail не был найден');
                     }
-    
-                    
-                }else{
+                } else {
                     Telegram::sendMessageProxy($chatId, 'Не известная команда');
                 }
-    
-            }else{
+            } else {
                 echo 'n/a';
                 Telegram::sendMessageProxy('462136229', 'n/a');
             }
-    
-        }catch(\Exception $exception){
+        } catch (\Exception $exception) {
             \Log::error($exception);
         }
-
-        
-        
     }
 
-    public function viberWebhook(){
-        
+    public function viberWebhook()
+    {
+
         $request = file_get_contents("php://input");
         $input = json_decode($request, true);
-        
-        try{
-            
-            if($input){
-            
-                if($input['event'] == 'webhook') {
-                    
-                    $webhook_response['status'] = 0;
-                    $webhook_response['status_message']="ok";
-                    $webhook_response['event_types']='delivered';
-                
-                }
-                else if($input['event'] == "subscribed") {
-                    
-                    $chatId = $input['sender']['id'];
-                    Viber::sendMessage($chatId, [],'Для подписки введите текст email:ваш адрес электронной почты, например: email:ivanov@mail.ru');
 
-                }
-                else if($input['event'] == "conversation_started"){
-                
-                }
-                elseif($input['event'] == "message") {
+        try {
+
+            if ($input) {
+
+                if ($input['event'] == 'webhook') {
+
+                    $webhook_response['status'] = 0;
+                    $webhook_response['status_message'] = "ok";
+                    $webhook_response['event_types'] = 'delivered';
+                } else if ($input['event'] == "subscribed") {
+
+                    $chatId = $input['sender']['id'];
+                    Viber::sendMessage($chatId, [], 'Для подписки введите текст email:ваш адрес электронной почты, например: email:ivanov@mail.ru');
+                } else if ($input['event'] == "conversation_started") {
+                } elseif ($input['event'] == "message") {
 
                     $chatId = $input['sender']['id'];
                     $message = $input['message']['text'];
 
                     if (strstr($message, "email:")) {
-                        
+
                         $email = explode(':', $message);
                         $user = User::where(['email' => $email[1]])->first();
-                        
-                        if($user){
+
+                        if ($user) {
 
                             $userOld = User::where(['viber' => $chatId])->first();
 
-                            if($userOld){
+                            if ($userOld) {
 
-                                if($userOld->id == $user->id){
+                                if ($userOld->id == $user->id) {
                                     Viber::sendMessage($chatId, 'Вы были подписаны ранее!');
-                                }else{
+                                } else {
                                     Viber::sendMessage($chatId, 'Данный viber аккаунт уже используется другим пользователем!');
                                 }
-                                
-                            }else{
+                            } else {
                                 $user->viber = $chatId;
                                 $user->save();
                                 Viber::sendMessage($chatId, 'Вы успешно подписались на уведомления!');
                             }
-                            
-                        }else{
+                        } else {
                             Viber::sendMessage($chatId, 'E-mail не был найден');
                         }
-
-                        
-                    }else{
+                    } else {
                         Viber::sendMessage($chatId, 'Не известная команда');
                     }
-
-                    
-                
-                }elseif($input['event'] == "Failed"){
-                    
+                } elseif ($input['event'] == "Failed") {
                 }
-
             }
-
-        }catch(\Exception $exception){
+        } catch (\Exception $exception) {
             \Log::error($exception);
         }
-        
     }
 
-    public function setupViber(){
+    public function setupViber()
+    {
 
-        try{
-            
+        try {
+
             $result = Viber::setup();
             dd($result);
-
-        }catch(\Exception $exception){
+        } catch (\Exception $exception) {
             \Log::error($exception);
         }
     }
-
-    
-
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Resume;
+use App\Models\Resume\Resume;
 use Illuminate\Support\Facades\Auth;
 
 class DashBoardController extends Controller

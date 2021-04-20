@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\Interview;
-use App\Models\Form;
-use App\Models\Resume;
+use App\Models\Resume\Interview;
+use App\Models\Form\Form;
+use App\Models\Resume\Resume;
+
 
 
 class InterviewController extends BaseController
@@ -22,7 +23,7 @@ class InterviewController extends BaseController
 
     public function show($id){
         $interview = Interview::where(['user_id' => Auth::id(), 'id' => $id])->with(['resume'])->first(); 
-
+        //dd($interview);
         if(empty($interview)){
             abort(404);
         }

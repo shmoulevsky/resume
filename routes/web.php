@@ -90,7 +90,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/mng/tests/show', [TestController::class, 'index'])->name('tests.list');
     Route::get('/mng/tests/show/{id}', [TestController::class, 'show'])->name('tests.detail');
     Route::get('/mng/tests/create', [TestController::class, 'create'])->name('tests.create');
+    Route::get('/mng/tests/edit/{id}', [TestController::class, 'edit'])->name('tests.edit');
     Route::post('/mng/tests/store', [TestController::class, 'store'])->name('tests.store');
+    Route::post('/mng/tests/update', [TestController::class, 'store'])->name('tests.update');
     Route::get('/mng/tests/delete/{id}', [TestController::class, 'delete'])->name('tests.delete');
     Route::post('/mng/tests/getlist', [TestController::class, 'getList'])->name('tests.getlist');
     Route::post('/mng/tests/assign', [TestController::class, 'assign'])->name('tests.assign');
@@ -100,6 +102,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/mng/questions/show/{id}', [QuestionController::class, 'show'])->name('questions.detail');
     Route::get('/mng/questions/create', [QuestionController::class, 'create'])->name('questions.create');
     Route::post('/mng/questions/store', [QuestionController::class, 'store'])->name('questions.store');
+    Route::get('/mng/questions/edit/{id}', [QuestionController::class, 'edit'])->name('questions.edit');
     Route::get('/mng/questions/delete/{id}', [QuestionController::class, 'delete'])->name('questions.delete');
 
     Route::get('/mng/tests-assign/delete/{id}', [TestResumeController::class, 'delete'])->name('test.assign.delete');

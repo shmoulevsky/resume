@@ -6,9 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Resume;
-use App\Models\Test;
-use App\Models\TestResult;
+use App\Models\Resume\Resume;
+use App\Models\Test\Test;
+use App\Models\Test\TestResult;
 
 class TestFinished extends Mailable
 {

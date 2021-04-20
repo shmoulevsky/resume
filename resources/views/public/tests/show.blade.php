@@ -16,14 +16,15 @@
                 <div class="pagination-wrap">
                     <span class="title">Вопросы:</span>
                     <div class="flex">
-                    <span data-page="1" class="pagination-item question-page prev">🠐</span>
+                    <span style="display:none;" data-page="1" class="pagination-item question-page prev">🠐</span>
                     @for ($i = 1; $i <= $countQuestions; $i++)
                        
-                        <span data-page="{{$i}}" class="pagination-item question-page @if($i == 1) active @endif"><?=$i?></span>
+                        <span data-page="{{$i}}" class="pagination-item question-page question-page-number @if($i == 1) active @endif"><?=$i?></span>
                         
                     @endfor
                     <span data-page="2" class="pagination-item question-page next">🠒</span>
                     </div>
+                    <input type="hidden" value="{{$countQuestions}}"  id="page-count">
                 </div>
                 <div>
                     <button class="finish-test bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">Завершить тестирование</button>

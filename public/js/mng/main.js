@@ -403,6 +403,17 @@ $(function(){
 		e.preventDefault();
 	});
 
+	$(document).on("click", "#test-edit-btn", function (e) {
+
+		let url = '/mng/tests/update';
+		let title = 'Инфо';
+		let text = 'Спасибо. Тест был отредактирован.';
+		let button = 'Ок';
+
+		CommonForm.store(url, title, text, button, 'test', function(){}, function(){ location.reload();});
+		e.preventDefault();
+	});
+
 	/**
 	 * questions
 	 */
@@ -413,15 +424,15 @@ $(function(){
 
 		const answersCount = document.querySelectorAll('.question-type-'+type+' .answer-title').length + 1;
 		htmlType.push(`<div class="mb-3"><label class="answer-title answer-title-1" for="">Ответ №${answersCount}:</label>
-		<span class="right-answer state-label">Правильный</span><textarea data-id="${currentId}" data-is_right="" class="form-answer-field" name="answer" type="text" value=""></textarea>
+		<span class="right-answer state-label">Правильный</span><textarea data-id="new-${currentId}" data-is_right="" class="form-answer-field" name="answer" type="text" value=""></textarea>
 	</div>`);
 		htmlType.push(``);
 		htmlType.push(`
 		<div class="mb-3">
 		<label class="answer-title answer-title-3" for="">Ответ-сопоставление №${answersCount}:</label>
 		<div class="flex">
-			<textarea data-id="${currentId}" data-pair="${currentId}" class="form-answer-field mr-3" name="answer" type="text" value=""></textarea>
-			<textarea data-id="${currentId++}" data-pair="${currentId-1}" class="form-answer-field" name="answer" type="text" value=""></textarea>
+			<textarea data-id="new-${currentId}" data-pair="new-${currentId}" class="form-answer-field mr-3" name="answer" type="text" value=""></textarea>
+			<textarea data-id="new-${currentId++}" data-pair="new-${currentId-1}" class="form-answer-field" name="answer" type="text" value=""></textarea>
 		</div>
 		</div>
 		`);
@@ -430,7 +441,7 @@ $(function(){
 		<div class="mb-3">
 		<label class="answer-title answer-title-3" for="">Ответ-хронология №${answersCount}:</label>
 		<div class="flex">
-			<textarea data-id="${currentId}" data-chrono="${answersCount}" class="form-answer-field" name="answer" type="text" value=""></textarea>
+			<textarea data-id="new-${currentId}" data-chrono="${answersCount}" class="form-answer-field" name="answer" type="text" value=""></textarea>
 		</div>
 		</div>
 		`);

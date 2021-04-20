@@ -34,6 +34,7 @@
             <td class="border px-4 py-2">{{ $test->questions_count }}</td>
 
             <td class="border px-4 py-2">
+                <a href="{{route('tests.edit', ['id' => $test->id])}}">Редактировать</a><br>
                 <a href="{{route('tests.detail', ['id' => $test->id])}}">Подробнее</a><br>
                 <a class="delete-item" data-url="{{route('tests.delete', ['id' => $test->id])}}" href="#">Удалить</a>
             </td>

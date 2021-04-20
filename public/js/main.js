@@ -368,15 +368,25 @@ $(function(){
 	$(document).on('click', '.question-page', function(e){
 		
 		let number = $(this).data('page');
+		let pageCount = $('#page-count').val();
 		$('.question-page').removeClass('active');
-		$('.question-page.prev').data('page', number-1);
-		$('.question-page.next').data('page', number+1);
 
-		if($(this).hasClass('prev') || $(this).hasClass('next')){
-			
+		if(number+1 > pageCount){
+			$('.question-page.next').css('display', 'none');	
 		}else{
-			$(this).addClass('active');
+			$('.question-page.next').data('page', number+1);
+			$('.question-page.next').css('display', 'block');
 		}
+
+		if(number-1 == 0){
+			$('.question-page.prev').css('display', 'none');	
+		}else{
+			$('.question-page.prev').data('page', number-1);
+			$('.question-page.prev').css('display', 'block');
+		}
+
+		$('.question-page-number[data-page='+number+']').addClass('active');
+		
 	
 		showQuestion(number, $(this));
 
@@ -400,7 +410,9 @@ $(function(){
 			data: {test_result_id, type, _token},
 			dataType : 'html',
 			success: function(data){
-				$('.pagination-wrap').html('')			
+				$('.pagination-wrap').html('');
+				clearInterval(timer);
+				$('#timer').fadeOut();			
 				$('.test-wrap').html('Спасибо! Тестирование завершено.')			
 			},
 			error : function(e) {
@@ -450,23 +462,25 @@ $(function(){
 		});
 
 	}
-	
+
+	let timer = null;
 	startTimer(600, '#timer');
 	
+
 	function startTimer(duration, element) {
-		let  timer = duration, minutes, seconds;
+		let  time = duration, minutes, seconds;
 		
-		let t = setInterval(function () {
-			minutes = parseInt(timer / 60, 10);
-			seconds = parseInt(timer % 60, 10);
+		timer = setInterval(function () {
+			minutes = parseInt(time / 60, 10);
+			seconds = parseInt(time % 60, 10);
 	
 			minutes = minutes < 10 ? "0" + minutes : minutes;
 			seconds = seconds < 10 ? "0" + seconds : seconds;
 	
 			$(element).html(minutes + ":" + seconds);
 	
-			if (--timer < 0) {
-				clearInterval(t);
+			if (--time < 0) {
+				clearInterval(timer);
 				$('.finish-test').fadeOut();
 				let test_result_id = $('#trid').val();
 				finishTest(test_result_id, 2);

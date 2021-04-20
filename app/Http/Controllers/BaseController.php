@@ -13,7 +13,7 @@ class BaseController extends Controller
         $model = str_ireplace('Controllers','Models', static::class);
         $model = str_ireplace('Controller','', $model);
         $model = str_ireplace('Http\\','', $model);
-
+        
         $item = $model::findOrFail(['id' => $id])->first();
                     
         $item->delete();

@@ -35,6 +35,7 @@
 
             <td class="border px-4 py-2">
                 <a href="{{route('questions.detail', ['id' => $question->id])}}">Подробнее</a><br>
+                <a href="{{route('questions.edit', ['id' => $question->id])}}">Редактировать</a><br>
                 <a class="delete-item" data-url="{{route('questions.delete', ['id' => $question->id])}}" href="#">Удалить</a>
             </td>
 

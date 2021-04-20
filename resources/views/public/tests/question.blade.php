@@ -6,10 +6,12 @@
                     @if($question->type == 1 || $question->type == 2)
                     <label class="text-xl block mb-3 my-2 block" for="">{{$question->question}}</label>
                         <div class="block">
+                        @php $index = 0; @endphp
                         @foreach($question->answers as $keyA => $answer)
+                        @php $index ++; @endphp
                             <div class="mb-5">
                                 <span data-id="{{$answer->id}}" class="answer-choice answer-clickable @if(in_array($answer->id, $answersExistId) == 1) active @endif"></span>
-                                <span class=""><?=$keyA+1?>.<?=$answer->answer?></span>
+                                <span class="">{{$index}}.{{$answer->answer}}</span>
                             </div>
                         @endforeach
                         </div>
@@ -19,23 +21,23 @@
                     <label class="text-xl block mb-3 my-2 block" for="">{{$question->question}}</label>
                         <div class="flex">
                         <div class="compare-col">
-                        @foreach($question->answers as $keyA => $answer)
-                            <?if($answer->points == 1):?>
+                        @foreach($answersLeft as $keyA => $answer)
+                            
                             <div class="mb-5">
                                 <span data-id="{{$answer->id}}" data-type="left" class="answer-compare answer-clickable {{ isset($answersExist[$answer->id]) ? 'active' : '' }}">{{ isset($answersExist[$answer->id]) ? $answersExist[$answer->id]['number'] : '' }}</span>
                                 <span class=""><?=$keyA+1?>.<?=$answer->answer?></span>
                             </div>
-                            <?endif?>
+                            
                         @endforeach
                         </div>
                         <div class="compare-col">
-                        @foreach($question->answers as $keyA => $answer)
-                            <?if($answer->points == 0):?>
+                        @foreach($answersRight as $keyB => $answer)
+                            
                             <div class="mb-5">
                                 <span data-id="{{$answer->id}}" data-type="right" class="answer-compare answer-clickable">{{ isset($answersExist[$answer->id]) ? $answersExist[$answer->id]['number'] : '' }}</span>
-                                <span class=""><?=$keyA+1?>.<?=$answer->answer?></span>
+                                <span class=""><?=$keyB+1?>.<?=$answer->answer?></span>
                             </div>
-                            <?endif?>
+                           
                         @endforeach
                         </div>
                         </div>
@@ -44,12 +46,14 @@
                    @if($question->type == 4)
                     <label class="text-xl block mb-3 my-2 block" for="">{{$question->question}}</label>
                         <div class="block">
+                        @php $index = 0; @endphp
                         @foreach($question->answers as $keyA => $answer)
                             <div class="mb-5">
+                                @php $index ++; @endphp
                                 <span data-id="{{$answer->id}}" class="answer-order answer-clickable {{ isset($answersExist[$answer->id]) ? 'active' : '' }}">
                                 {{ isset($answersExist[$answer->id]) ? $answersExist[$answer->id]['number'] : '' }}
                                 </span>
-                                <span class=""><?=$keyA+1?>.<?=$answer->answer?></span>
+                                <span class="">{{$index}}.{{$answer->answer}}</span>
                             </div>
                         @endforeach
                         </div>

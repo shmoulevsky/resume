@@ -30,12 +30,12 @@
                         <div class="mb-3">
                             <label class="answer-title answer-title-1" for="">Ответ №1:</label>
                             <span class="right-answer state-label">Правильный</span>
-                            <textarea data-id="1" data-is_right="" class="form-answer-field" name="answer" type="text" value=""></textarea>
+                            <textarea data-id="new-1" data-is_right="" class="form-answer-field" name="answer" type="text" value=""></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="answer-title answer-title-1" for="">Ответ №2:</label>
                             <span class="right-answer state-label">Правильный</span>
-                            <textarea data-id="2" data-is_right="" class="form-answer-field" name="answer" type="text" value=""></textarea>
+                            <textarea data-id="new-2" data-is_right="" class="form-answer-field" name="answer" type="text" value=""></textarea>
                         </div>
                     </div>
                     </div>
@@ -44,12 +44,12 @@
                         <div class="mb-3">
                             <label class="answer-title answer-title-1" for="">Ответ №1:</label>
                             <span class="right-answer state-label">Правильный</span>
-                            <textarea data-id="1" data-is_right="" class="form-answer-field" name="answer" type="text" value="">Да</textarea>
+                            <textarea data-id="new-1" data-is_right="" class="form-answer-field" name="answer" type="text" value="">Да</textarea>
                         </div>
                         <div class="mb-3">
                             <label class="answer-title answer-title-1" for="">Ответ №2:</label>
                             <span class="right-answer state-label">Правильный</span>
-                            <textarea data-id="2" data-is_right="" class="form-answer-field" name="answer" type="text" value="">Нет</textarea>
+                            <textarea data-id="new-2" data-is_right="" class="form-answer-field" name="answer" type="text" value="">Нет</textarea>
                         </div>
                     </div>
                     </div>
@@ -58,15 +58,15 @@
                         <div class="mb-3">
                             <label class="answer-title answer-title-3" for="">Ответ-сопоставление №1:</label>
                             <div class="flex">
-                            <textarea data-id="1" data-pair="1" class="form-answer-field mr-3" name="answer" type="text" value=""></textarea>
-                            <textarea data-id="2" data-pair="1" class="form-answer-field" name="answer" type="text" value=""></textarea>
+                            <textarea data-id="new-1" data-pair="new-1" class="form-answer-field mr-3" name="answer" type="text" value=""></textarea>
+                            <textarea data-id="new-2" data-pair="new-1" class="form-answer-field" name="answer" type="text" value=""></textarea>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="answer-title answer-title-3" for="">Ответ-сопоставление №2:</label>
                             <div class="flex">
-                            <textarea data-id="3" data-pair="3" class="form-answer-field mr-3" name="answer" type="text" value=""></textarea>
-                            <textarea data-id="4" data-pair="3" class="form-answer-field" name="answer" type="text" value=""></textarea>
+                            <textarea data-id="new-3" data-pair="new-3" class="form-answer-field mr-3" name="answer" type="text" value=""></textarea>
+                            <textarea data-id="new-4" data-pair="new-3" class="form-answer-field" name="answer" type="text" value=""></textarea>
                             </div>
                         </div>
                     </div>
@@ -76,13 +76,13 @@
                         <div class="mb-3">
                             <label class="answer-title answer-title-3" for="">Ответ-хронология №1:</label>
                             <div class="flex">
-                                <textarea data-id="1" data-chrono="1" class="form-answer-field" name="answer" type="text" value=""></textarea>
+                                <textarea data-id="new-1" data-chrono="new-1" class="form-answer-field" name="answer" type="text" value=""></textarea>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="answer-title answer-title-3" for="">Ответ-хронология №2:</label>
                             <div class="flex">
-                                <textarea data-id="2" data-chrono="2" class="form-answer-field" name="answer" type="text" value=""></textarea>
+                                <textarea data-id="new-2" data-chrono="new-2" class="form-answer-field" name="answer" type="text" value=""></textarea>
                             </div>
                         </div>
                     </div>

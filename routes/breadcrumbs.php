@@ -73,6 +73,12 @@ Breadcrumbs::for('questions.list', function ($trail) {
     $trail->push('Банк вопросов', route('questions.list'));
 });
 
+// questions edit
+Breadcrumbs::for('questions.edit', function ($trail, $question) {
+    $trail->parent('questions.list');
+    $trail->push('Редактирование вопроса', route('questions.edit', $question->id));
+});
+
 
 // questions detail
 Breadcrumbs::for('questions.detail', function ($trail, $question) {
