@@ -44,11 +44,13 @@ class QuestionController extends BaseController
 
         $userId = Auth::id();
         $companyId = Auth::user()->company->id;
-        
+
         $arForm = $request->post('form');
         $arFields = $request->post('fields');
 
-        $questionId = $arForm['question-id'];
+        $questionId = 0;
+
+        if (isset($arForm['question-id'])) {$questionId = $arForm['question-id'];}
 
         //dd($arForm, $arFields);
 
@@ -60,7 +62,7 @@ class QuestionController extends BaseController
         }else{
             $question = new Question();
         }
-        
+
         $question->question = $arForm['question'];
         $question->description = $arForm['description'];
         $question->points = $arForm['points'];
@@ -86,7 +88,7 @@ class QuestionController extends BaseController
 
         unset($key);
         unset($arField);
-        
+
         foreach ($arFields as $key => $arField) {
 
             if(strstr($key, 'new')){
@@ -94,7 +96,7 @@ class QuestionController extends BaseController
             }else{
                 $answer = QuestionAnswer::findOrFail($key);
             }
-            
+
             $answer->answer = $arField['answer'];
             $answer->points = 0;
             $answer->number = 0;

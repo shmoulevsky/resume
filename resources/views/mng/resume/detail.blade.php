@@ -6,9 +6,9 @@
         <div class="resume-inner">
             <div style="display:none;" class="resume-err mb-12 text-red-500 border-2 border-red-300 rounded py-3 px-6"></div>
             <h1 class="text-4xl mb-5"><span class="text-gray-400">Резюме на вакансию</span> &laquo;{{$form->name}}&raquo;</h1>
-  
+
             <div class="flex">
-            
+
                 <div class="my-5 resume-top flex">
                     @if($userPhoto)
                         <div class="resume-photo"><img src="{{$userPhoto->src}}" alt="" srcset=""></div>
@@ -65,21 +65,21 @@
                         <label class="text-xl block mb-3 my-2 block font-bold text-gray-400" for="">{{$key+1}}. {{$field->name}} ({{$field->answers->first()->points}} {{Helper::declOfNum($field->answers->first()->points, ['балл','балла','баллов'])}}):</label>
                         @foreach($field->variants as $variant)
                             <span data-label="resume:{{$field->id}}#{{$variant->id}}" class="resume-field border-2 rounded-full py-1 px-3 mx-1 border-purple-500 field-variant @if(in_array($variant->id, $field->answers->pluck('forms_fields_variants_id')->toArray())) active bg-purple-500 text-white @endif"><?=$variant->name?></span>
-                           
+
                         @endforeach
                     </div>
-                    @break    
+                    @break
                 @default
 
-                    
+
             @endswitch
             @endisset
             @endforeach
             <input type="hidden" id="fid" value="{{$form->id}}">
-           
+
             </div>
 
-           
+
             <div class="my-5">
             <span>Действия:</span>
             <a href="{{route('resume.list')}}"  class="inline-block border border-gray-200 hover:border-gray-400 font-bold py px-2 rounded my-3">К списку</a>
@@ -111,7 +111,7 @@
                 </div>
                 <div data-tab="4" class="my-5 links-tab">
                     @include('mng.resume.include.interviews', ['interviews' => $interviews])
-                </div>    
-            </div>    
+                </div>
+            </div>
 @endsection
-    
+

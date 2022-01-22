@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Resume;
+use App\Models\Form;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ResumeFactory extends Factory
+class FormFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Resume::class;
+    protected $model = Form::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,12 @@ class ResumeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->firstName(),
+            'code' => $this->faker->name(),
+            'is_active' => true,
+            'sort' => 100,
+            'user_id' => 1,
+            'company_id' => 1
         ];
     }
 }

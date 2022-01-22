@@ -1,4 +1,4 @@
-<?
+<?php
 namespace App\Repositories\Resume;
 
 use App\Models\Resume\ResumeStatus;

@@ -1,4 +1,4 @@
-<?
+<?php
 namespace App\Services\Test;
 
 use App\Repositories\Interfaces\Test\TestRepositoryInterface;

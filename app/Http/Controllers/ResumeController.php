@@ -15,7 +15,8 @@ class ResumeController extends BaseController
 
     public function __construct(
         ResumeService $resumeService
-    ) {
+    )
+    {
         $this->resumeService = $resumeService;
     }
 
@@ -72,12 +73,7 @@ class ResumeController extends BaseController
 
     public function exportPDF($id, Request $request)
     {
-
-
-        $data = $this->resumeService->getDetailInfo($id);
-        view()->share('data', $data);
-        $pdf = PDF::loadView('mng.resume.download-pdf', $data);
-        return $pdf->download('cv-' . $data['resume']->fullname . '.pdf');
+        return $this->resumeService->exportPDF($id);
     }
 
     public function changeStatus(Request $request)
@@ -106,24 +102,4 @@ class ResumeController extends BaseController
         ]);
     }
 
-    public function showPublic(Request $request, $companyId, $code)
-    {
-
-
-        $resume = $this->resumeService->resumeRepository->getByCode($code, $companyId);
-        $company = Company::findOrFail($companyId);
-
-        if (empty($resume)) {
-            abort(404);
-        }
-
-        $form = $this->resumeService->formRepository->getById($resume->form_id);
-        $testResume = $this->resumeService->testResumeRepository->getByColumnWith('resume_id', $resume->id, 'test:id,name');
-
-        if (empty($testResume)) {
-            abort(404);
-        }
-
-        return view('public.resume.show', compact('resume', 'testResume', 'company', 'form'));
-    }
 }

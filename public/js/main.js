@@ -1,33 +1,33 @@
 $(function(){
-    
+
 	let className = 'bg-purple-500 text-white active';
-	
+
 	$('.phone').inputmask('+7(999)999-9999');
 
 	function clearForm(){
-		
+
 		$('.resume-field').removeClass(className);
 
 		$( ".resume-field" ).each(function( index ) {
-			$(this).val('');	
+			$(this).val('');
 		});
 	}
-	
-    $(".send-resume-btn").click(function(e){		
-		
+
+    $(".send-resume-btn").click(function(e){
+
 		let formData = {};
 		let fields = {};
 		let expFields = [];
-		let eduFields = []; 
+		let eduFields = [];
 		let filesFields = [];
 		let arErr = [];
-		
+
 		let htmlEr = '';
 		let hasErr = false;
 
         let _token   = $('meta[name="csrf-token"]').attr('content');
 
-		
+
 		$('.resume-err').fadeOut();
 
 		$( ".resume-field" ).each(function( index ) {
@@ -40,41 +40,41 @@ $(function(){
 			}else{
 				fields[$(this).data("label")] = $(this).val();
 			}
-			
+
 		});
-						
+
 		$( ".experience-field" ).each(function( index ) {
-			
+
 			let company_name = $(this).find('input[data-label="company_name"]').val();
 			let position = $(this).find('input[data-label="position"]').val();
 			let period = $(this).find('input[data-label="period"]').val();
 			let description = $(this).find('textarea[data-label="description"]').val();
 
-			expFields.push({company_name, position, period, description});				
+			expFields.push({company_name, position, period, description});
 		});
 
 		$( ".education-field" ).each(function( index ) {
-			
+
 			let place = $(this).find('input[data-label="place"]').val();
 			let specialisation = $(this).find('input[data-label="specialisation"]').val();
 			let period = $(this).find('input[data-label="period"]').val();
-			
-			eduFields.push({place,specialisation, period});				
+
+			eduFields.push({place,specialisation, period});
 		});
 
-		$( ".file-field" ).each(function( index ) {	
-			
+		$( ".file-field" ).each(function( index ) {
+
 			let name = $(this).data('name');
 			let original_name = $(this).data('original-name');
 			let url = $(this).val();
 			let description = '';
 
-			filesFields.push({name, original_name, url, description});				
+			filesFields.push({name, original_name, url, description});
 		});
-		
+
 		$( ".required" ).each(function( index ) {
 
-			if(fields[$(this).data('label')]){	
+			if(fields[$(this).data('label')]){
 				$(this).addClass('border-gray-300');
 				$(this).removeClass('border-red-300');
 			}else {
@@ -82,9 +82,9 @@ $(function(){
 				$(this).removeClass('border-gray-300');
 				hasErr = true;
 			}
-				
+
 		});
-		
+
 		formData._token = _token;
 		formData.info = fields;
 		formData.files = filesFields;
@@ -92,34 +92,34 @@ $(function(){
 		formData.education = eduFields;
 		formData.form_id = $('#fid').val();
 		formData.company_code = $('#cid').val();
-		
+
 		console.log( formData);
-		
-		
+
+
 		if( $('.confirmation').prop( 'checked' )){
 			arErr.push('Для сохранения нажмите на галочку согласие');
-		}		
-		
+		}
+
 
 		if(arErr.length == 0 && !hasErr){
-		
-		Wait.show();	
-			
+
+		Wait.show();
+
 		$.ajax({
 			url: "/resume/save",
 			type: "POST",
 			data: formData,
 			dataType : 'json',
 			success: function(data){
-				
+
 
 				if( data['success'] == "Y" ) {
-					
+
 					Wait.hide();
 					clearForm();
 					Message.showSuccess('Инфо','Спасибо! Ваше резюме было отправлено!','Ок, понятно');
-					
-					
+
+
 				} else {
 					console.log( data['error'] );
 				}
@@ -134,23 +134,23 @@ $(function(){
 			/* arErr.forEach(function(item, i, arr) {
 				htmlEr +=  item + '<br/>';
 				}); */
-				
+
 				$('.resume-err').html('Заполнены не все поля! Проверьте заполнение полей.');
 				$('.resume-err').fadeIn();
-		
+
 				var body = $("html, body");
-				body.stop().animate({scrollTop:0}, 800, 'linear', function() { 
+				body.stop().animate({scrollTop:0}, 800, 'linear', function() {
 				});
 
 
 		}
-			
+
 		e.preventDefault();
 	});
-	
+
 	if($('#user-photo').length > 0){
 
-	var userPhoto = new Dropzone("#user-photo", { 
+	var userPhoto = new Dropzone("#user-photo", {
 		url : '/resume/photo',
 		paramName: 'file',
 		maxFilesize: 5, // MB,
@@ -165,9 +165,9 @@ $(function(){
 			formData.append("_token",  _token);
 		},
 		uploadprogress: function(file, progress, bytesSent) {
-			
+
 			$('.progress-file').html(parseInt(progress)+'%');
-			
+
 		},
 		success: function(file, response){
 			let html = `<input class='file-field' value='${response.url}' data-name='${response.name}' data-original-name='${file.name}' type='hidden'/>`;
@@ -181,13 +181,13 @@ $(function(){
 
 	}
 
-	
+
 	let currentExperienceField = 1;
 	let currentEducationField = 1;
 
 	$(document).on("click", ".add-expreience", function (e) {
 		let html = `<div class="mb-2 experience-field" data-id="${currentExperienceField}">
-		<div class="md:flex">                  
+		<div class="md:flex">
 		<div>
 			<label class="text-xl my-2 block" for="">Организация</label>
 			<input data-label="company_name"  class="border w-full border-gray-300 block focus:ring-purple-600" type="text" value="">
@@ -235,13 +235,13 @@ $(function(){
 	let currentFormTab = 1;
 
 	$(document).on("click", ".next-form-btn", function () {
-		
+
 		hasErr = false;
 		$('.resume-err').fadeOut();
 
 		$( ".form-tab.active .required" ).each(function( index ) {
 
-			if($(this).val()){	
+			if($(this).val()){
 				$(this).addClass('border-gray-300');
 				$(this).removeClass('border-red-300');
 			}else {
@@ -249,7 +249,7 @@ $(function(){
 				$(this).removeClass('border-gray-300');
 				hasErr = true;
 			}
-				
+
 		});
 
 		if(!hasErr){
@@ -261,9 +261,9 @@ $(function(){
 		}else{
 			$('.resume-err').html('Заполнены не все поля! Проверьте заполнение полей.');
 			$('.resume-err').fadeIn();
-				
+
 		}
-		
+
 	});
 
 	$(document).on("click", ".prev-form-btn", function () {
@@ -275,7 +275,7 @@ $(function(){
 	});
 
     $(document).on('click', '.field-variant', function(e){
-		
+
 		$(this).toggleClass(className);
 
 	});
@@ -288,7 +288,7 @@ $(function(){
 	let lastItemRight = {value : $('#last-item-right').val()};
 
 	 $(document).on('click', '.answer-clickable', function(e){
-		
+
 		let item = '';
 
 		if($(this).hasClass('answer-order')){
@@ -300,7 +300,7 @@ $(function(){
 		}
 
 		if($(this).hasClass('answer-compare')){
-			
+
 			if($(this).data('type') == 'left'){
 				item = lastItemLeft;
 			}else{
@@ -315,12 +315,12 @@ $(function(){
 				$(this).html(item.value++);
 				$(this).addClass('active');
 			}else{
-				
+
 				if($(this).hasClass('answer-compare')){
 
 					$('.answer-compare').html('');
 					$('.answer-compare').removeClass('active');
-					
+
 					lastItemLeft.value = 1;
 					lastItemRight.value = 1;
 					item.value = 1;
@@ -331,16 +331,16 @@ $(function(){
 					lastItemOrder.value = 1;
 					item.value = 1;
 				}
-				
+
 			}
 		}
-		
-		
-		
+
+
+
 	});
 
 	$(document).on('click', '.proccess-test', function(e){
-		
+
 		let code = $('#code').val();
 		let companyId = $('#company').val();
 		let _token   = $('meta[name="csrf-token"]').attr('content');
@@ -351,8 +351,8 @@ $(function(){
 			data: {code, companyId,_token},
 			dataType : 'json',
 			success: function(data){
-				
-				if( data['status'] == "success" ) {		
+
+				if( data['status'] == "success" ) {
 					location.href = `/tests/proccess/${companyId}/${code}`;
 				} else {
 					Message.showSuccess('Ошибка','Ошибка получения ответа сервера','Ок');
@@ -366,34 +366,34 @@ $(function(){
 	});
 
 	$(document).on('click', '.question-page', function(e){
-		
+
 		let number = $(this).data('page');
 		let pageCount = $('#page-count').val();
 		$('.question-page').removeClass('active');
 
 		if(number+1 > pageCount){
-			$('.question-page.next').css('display', 'none');	
+			$('.question-page.next').css('display', 'none');
 		}else{
 			$('.question-page.next').data('page', number+1);
 			$('.question-page.next').css('display', 'block');
 		}
 
 		if(number-1 == 0){
-			$('.question-page.prev').css('display', 'none');	
+			$('.question-page.prev').css('display', 'none');
 		}else{
 			$('.question-page.prev').data('page', number-1);
 			$('.question-page.prev').css('display', 'block');
 		}
 
 		$('.question-page-number[data-page='+number+']').addClass('active');
-		
-	
+
+
 		showQuestion(number, $(this));
 
 	});
 
 	$(document).on('click', '.finish-test', function(e){
-		
+
 		$(this).fadeOut();
 		let test_result_id = $('#trid').val();
 		finishTest(test_result_id, 1);
@@ -412,11 +412,11 @@ $(function(){
 			success: function(data){
 				$('.pagination-wrap').html('');
 				clearInterval(timer);
-				$('#timer').fadeOut();			
-				$('.test-wrap').html('Спасибо! Тестирование завершено.')			
+				$('#timer').fadeOut();
+				$('.test-wrap').html('Спасибо! Тестирование завершено.')
 			},
 			error : function(e) {
-				
+
 			}
 		});
 
@@ -428,33 +428,33 @@ $(function(){
 		let _token = $('meta[name="csrf-token"]').attr('content');
 		let question = $('#qid').val();
 		let questionType = $('#qtype').val();
-		let answersRaw = []; 
-		let answers = []; 
+		let answersRaw = [];
+		let answers = [];
 
-		
+
 		lastItemOrder.value = $('#last-item-order').val();
 		lastItemLeft.value = $('#last-item-left').val();
 		lastItemRight.value = $('#last-item-right').val();
-		
+
 
 		$( ".answer-clickable.active" ).each(function( index ) {
 
 			answers.push({id : $(this).data('id'), number : $(this).html()});
-				
+
 		});
 
 		$.ajax({
-			url: "/tests/question/show",
+			url: "/tests/question/show/" + number,
 			type: "POST",
 			data: {test, question, questionType, number, answers, _token},
 			dataType : 'html',
 			success: function(data){
-				
-				if(data) {		
-					$('.test-wrap').html(data);	
+
+				if(data) {
+					$('.test-wrap').html(data);
 				}else{
 					Message.showSuccess('Ошибка','Ошибка получения ответа сервера','Ок');
-				} 
+				}
 			},
 			error : function(e) {
 				console.log(e);
@@ -465,20 +465,20 @@ $(function(){
 
 	let timer = null;
 	startTimer(600, '#timer');
-	
+
 
 	function startTimer(duration, element) {
 		let  time = duration, minutes, seconds;
-		
+
 		timer = setInterval(function () {
 			minutes = parseInt(time / 60, 10);
 			seconds = parseInt(time % 60, 10);
-	
+
 			minutes = minutes < 10 ? "0" + minutes : minutes;
 			seconds = seconds < 10 ? "0" + seconds : seconds;
-	
+
 			$(element).html(minutes + ":" + seconds);
-	
+
 			if (--time < 0) {
 				clearInterval(timer);
 				$('.finish-test').fadeOut();
@@ -488,6 +488,6 @@ $(function(){
 		}, 1000);
 	}
 
-	
+
 
 });

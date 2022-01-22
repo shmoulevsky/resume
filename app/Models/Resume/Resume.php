@@ -2,16 +2,19 @@
 
 namespace App\Models\Resume;
 
+use App\Models\Comment;
+use App\Models\File;
+use App\Models\Form\Form;
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Resume\ResumeStatus;
 use App\Models\Test\Test;
 use Carbon\Carbon;
 
 class Resume extends Model
 {
     use HasFactory;
-    use \App\Traits\DateTimeFormat;
+    use DateTimeFormat;
     protected $table = 'resume';
 
     public function status()
@@ -21,7 +24,7 @@ class Resume extends Model
 
     public function form()
     {
-        return $this->belongsTo('App\Models\Form\Form');
+        return $this->belongsTo(Form::class);
     }
 
     public function getDateAttribute(){
@@ -34,17 +37,17 @@ class Resume extends Model
 
     public function comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function files()
     {
-        return $this->morphMany('App\Models\File', 'fileable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function tests()
     {
-        return $this->belongsToMany('App\Models\Test\Test', 'tests_resume');
+        return $this->belongsToMany(Test::class, 'tests_resume');
     }
 
 }

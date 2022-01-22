@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Resume\Resume;
 use Illuminate\Database\Seeder;
 
 class ResumeSeeder extends Seeder
@@ -13,6 +14,6 @@ class ResumeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Resume::factory()->count(20)->create();
     }
 }

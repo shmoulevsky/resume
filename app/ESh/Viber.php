@@ -7,7 +7,7 @@ class Viber
 
     public static function sendMessage
     (
-        $receiver,          // ID администратора Public Account.
+        $receiver,          // ID администратора User Account.
         $text           // Текст.
     )
     {
@@ -16,7 +16,7 @@ class Viber
         $data['type'] = 'text';
         $data['text']   = $text;
         $data['sender'] = ['name' => "Уведомлятель"];
-        
+
         return self::callApi('send_message', $data);
     }
 
@@ -30,24 +30,24 @@ class Viber
         $data['size'] = $fileSize;
         $data['file_name'] = $fileName;
         $data['sender'] = ['name' => "Уведомлятель"];
-        
+
         return self::callApi('send_message', $data);
     }
 
     public static function setup(){
-      
-      
+
+
       $data['url'] = config('app.url').'/messengers/viber/webhook';
       $data['event_types'] = ['delivered','seen','failed','subscribed', 'unsubscribed', 'conversation_started'];
-      
+
       return self::callApi('set_webhook', $data);
 
     }
-	
-	
+
+
     public static function callApi($method, $data)
     {
-      
+
       $url = self::$url_api.$method;
       $token = config('messengers.vibertoken');
 
@@ -62,9 +62,9 @@ class Viber
       ];
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       $result = curl_exec($ch);
-      curl_close($ch); 
-      
+      curl_close($ch);
+
       return $result;
-	  
+
     }
 }

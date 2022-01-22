@@ -11,5 +11,5 @@ interface ResumeRepositoryInterface
     public function getListId($user_id);
     public function getGroupedByStatus($user_id);
     public function getWithComments($id);
-    public function getDataForPDF($id);
+
 }

@@ -13,7 +13,7 @@ class Experience extends Model
 
     public function resume()
     {
-        return $this->belongsTo('App\Models\Resume\Resume');
+        return $this->belongsTo(Resume::class);
     }
 
 }

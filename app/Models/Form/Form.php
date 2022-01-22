@@ -2,6 +2,8 @@
 
 namespace App\Models\Form;
 
+use App\Models\Resume\Resume;
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,20 +11,20 @@ use Illuminate\Database\Eloquent\Model;
 class Form extends Model
 {
     use HasFactory;
-    use \App\Traits\DateTimeFormat;
+    use DateTimeFormat;
 
     public function fields()
     {
-        return $this->hasMany('App\Models\Form\FormField', 'form_id');
+        return $this->hasMany(FormField::class, 'form_id');
     }
 
     public function resume()
     {
-        return $this->hasMany('App\Models\Resume\Resume', 'form_id', 'id');
+        return $this->hasMany(Resume::class, 'form_id', 'id');
     }
 
     public function answers()
     {
-        return $this->hasManyThrough('App\Models\Form\FormAnswer', 'App\Models\Form\FormField', 'id', 'form_id');
+        return $this->hasManyThrough(FormAnswer::class, FormField::class, 'id', 'form_id');
     }
 }

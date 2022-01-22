@@ -13,12 +13,12 @@ class FormField extends Model
 
     public function variants()
     {
-        return $this->hasMany('App\Models\Form\FormFieldVariant', 'field_id');
+        return $this->hasMany(FormFieldVariant::class, 'field_id');
     }
 
     public function answers()
     {
-        return $this->hasMany('App\Models\Form\FormAnswer', 'field_id');
+        return $this->hasMany(FormAnswer::class, 'field_id');
     }
 
     public function getRequiredClassAttribute()

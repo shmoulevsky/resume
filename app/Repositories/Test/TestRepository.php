@@ -1,4 +1,4 @@
-<?
+<?php
 namespace App\Repositories\Test;
 
 use App\Models\Test\Test;

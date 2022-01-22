@@ -2,13 +2,14 @@
 
 namespace App\Services\Test;
 
+
+use App\Models\Test\Question\Checkable;
+use App\Models\Test\Question\Question;
 use Illuminate\Support\Facades\DB;
 use App\Models\Test\Test;
 use App\Models\Test\TestResume;
 use App\Models\Test\TestResult;
 use App\Models\Test\TestsResultsAnswer;
-use App\Models\Test\Question;
-use App\Models\Test\QuestionAnswer;
 
 use App\DataTransferObjects\UserQuestionAnswerDTO;
 
@@ -68,61 +69,83 @@ class TestManager
         return $arUrl;
     }
 
-    public static function checkIfRight(int $questionId, int $questionType, $answers): array
+    public static function checkIfRight(int $questionId, $answers,Checkable $question): array
+    {
+        return $question->check($answers, $questionId);
+    }
+
+    public function getQuestions($testResultId)
+    {
+        $testResult = TestResult::where(['id' => $testResultId])->first();
+        return unserialize($testResult->questions);
+    }
+
+    public function getQuestion(int $questionNumber,array $questions)
+    {
+        return  Question::where('id', $questions[$questionNumber - 1])->with('answers', function ($ans) {
+            $ans->inRandomOrder();
+        })->first();
+
+    }
+
+    public function getExistAnswers(int $testResultId, int $questionId)
+    {
+        return TestsResultsAnswer::where(['test_result_id' => $testResultId, 'question_id' => $questionId])->select('id','answer','answers_order')->first();
+    }
+
+    public function getTestResult($testId, $resumeId)
+    {
+        return TestResult::where(['test_id' => $testId, 'resume_id' => $resumeId])->orderBy('id', 'DESC')->first();
+    }
+
+    public function getConnectedResume(string $code,string $company)
+    {
+        return TestResume::where(['code' => $code, 'company_id' => $company])->first();
+    }
+
+    public function getTest(int $testId)
+    {
+        return Test::where(['id' => $testId])->first();
+    }
+
+    public function checkLastAnswers(int $testResultId, int $questionId, $questionType)
     {
 
-        $result['points'] = 0;
-        $result['is_right'] = false;
+        $answersExist = [];
+        $lastItemOrder = 1;
+        $lastItemLeft = 1;
+        $lastItemRight = 1;
 
-        if (($questionType == 1 || $questionType == 2) && $answers) {
+        $testAnswer = $this->getExistAnswers($testResultId, $questionId);
 
-            $rightAnswers = QuestionAnswer::where([['question_id', '=', $questionId], ['points', '>', 0]])->get();
-            $userAnswers = array_column($answers, 'id');
-            $rightAnswersId = $rightAnswers->pluck('id')->toArray();
+        if ($testAnswer) {
 
-            foreach ($rightAnswers as $key => $rightAnswer) {
-                if (in_array($rightAnswer->id, $userAnswers)) {
-                    $result['points'] += $rightAnswer->points;
+            $answersExistRaw = unserialize($testAnswer->answer);
+
+            if ($answersExistRaw) {
+
+                foreach ($answersExistRaw as $key => $value) {
+                    $answersExist[$value['id']] = $value;
+                }
+
+                $answersExistId = array_column($answersExistRaw, 'id');
+
+                if ($questionType == 3) {
+                    $lastItemLeft = $lastItemRight = (intval(count($answersExistId) / 2)) + 1;
+                }
+
+                if ($questionType == 4) {
+                    $lastItemOrder = count($answersExistId) + 1;
                 }
             }
 
-            if (count($rightAnswersId) == count($userAnswers)) {
-                $result['is_right'] = true;
-            }
+            //dd($testAnswer,$answersExistRaw);
+
+            return [$answersExist, $answersExistId, $lastItemOrder, $lastItemLeft, $lastItemRight];
         }
 
-        if ($questionType == 3) {
-        }
 
-        if ($questionType == 4) {
 
-            $rightAnswers = QuestionAnswer::where([['question_id', '=', $questionId]])->orderBy('number')->get()->pluck('id')->toArray();
-
-            if (count($answers) > 0) {
-
-                usort($answers, function ($a, $b) {
-
-                    if ($a['number'] == $b['number']) {
-                        return 0;
-                    }
-
-                    return ($a['number'] < $b['number']) ? -1 : 1;
-                });
-
-                $userAnswers = array_column($answers, 'id');
-
-                $userAnswers = array_map(function ($item) {
-                    return $item = intval($item);
-                }, $userAnswers);
-
-                if ($userAnswers === $rightAnswers) {
-                    $result['points'] = 100;
-                    $result['is_right'] = true;
-                }
-            }
-        }
-
-        return $result;
     }
 
     public static function finishTest(int $testResultId, $finished_by = 1): testResult

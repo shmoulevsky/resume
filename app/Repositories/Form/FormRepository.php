@@ -1,4 +1,4 @@
-<?
+<?php
 namespace App\Repositories\Form;
 
 use App\Models\Form\Form;

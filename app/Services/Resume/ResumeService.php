@@ -1,5 +1,8 @@
-<?
+<?php
+
 namespace App\Services\Resume;
+
+use App\Models\Resume\ResumeData;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
@@ -24,60 +27,88 @@ use App\Models\Resume\Resume;
 use App\Models\Resume\Education;
 use App\Models\Resume\Experience;
 use App\Models\Form\FormAnswer;
-use App\Models\User;
+
 
 use App\ESh\Telegram;
 use App\ESh\Viber;
+use PDF;
 
+class ResumeService
+{
 
-class ResumeService{
-          
-   public function __construct(
-       ResumeRepositoryInterface $resumeRepository,
-       ResumeStatusRepositoryInterface $resumeStatusRepository,
-       FormRepositoryInterface $formRepository,
-       FormFieldRepositoryInterface $formFieldRepository,
-       FormAnswerRepositoryInterface $formAnswerRepository,
-       TestResultRepositoryInterface $testResultRepository,
-       TestResumeRepositoryInterface $testResumeRepository,
-       InterviewRepositoryInterface $interviewRepository,
-       ExperienceRepositoryInterface $experienceRepository,
-       EducationRepositoryInterface $educationRepository,
-       FileRepositoryInterface $fileRepository
+    public function __construct(
+        ResumeRepositoryInterface $resumeRepository,
+        ResumeStatusRepositoryInterface $resumeStatusRepository,
+        FormRepositoryInterface $formRepository,
+        FormFieldRepositoryInterface $formFieldRepository,
+        FormAnswerRepositoryInterface $formAnswerRepository,
+        TestResultRepositoryInterface $testResultRepository,
+        TestResumeRepositoryInterface $testResumeRepository,
+        InterviewRepositoryInterface $interviewRepository,
+        ExperienceRepositoryInterface $experienceRepository,
+        EducationRepositoryInterface $educationRepository,
+        FileRepositoryInterface $fileRepository
 
-       ) 
+    )
     {
-       $this->resumeRepository = $resumeRepository;
-       $this->experienceRepository = $experienceRepository;
-       $this->educationRepository = $educationRepository;
-       $this->interviewRepository = $interviewRepository;
-       $this->resumeStatusRepository = $resumeStatusRepository;
+        $this->resumeRepository = $resumeRepository;
+        $this->experienceRepository = $experienceRepository;
+        $this->educationRepository = $educationRepository;
+        $this->interviewRepository = $interviewRepository;
+        $this->resumeStatusRepository = $resumeStatusRepository;
 
-       $this->formRepository = $formRepository;
-       $this->formFieldRepository = $formFieldRepository;
-       $this->formAnswerRepository = $formAnswerRepository;
-        
-       $this->testResultRepository = $testResultRepository;
-       $this->testResumeRepository = $testResumeRepository;
-        
-       $this->fileRepository = $fileRepository;
-      
+        $this->formRepository = $formRepository;
+        $this->formFieldRepository = $formFieldRepository;
+        $this->formAnswerRepository = $formAnswerRepository;
+
+        $this->testResultRepository = $testResultRepository;
+        $this->testResumeRepository = $testResumeRepository;
+
+        $this->fileRepository = $fileRepository;
+
     }
 
-  
-   public function changeStatus($resumeId, $statusId)
-   {
+    public function saveResume(int $formId, Company $company, array $arExperience, array $arEducation, ResumeData $resumeData, array $arFiles, array $arFormFields): Resume
+    {
+
+        $resume = $this->resumeRepository->saveResumeForm($formId, $company, $resumeData);
+        $this->saveExperience($resume->id, $company->id, $arExperience);
+        $this->saveEducation($resume->id, $company->id, $arEducation);
+        $resume->points = $this->saveAnswers($formId, $resume->id, $company->id, $arFormFields);
+        $this->savePhoto($resume, $arFiles);
+
+        return $resume;
+    }
+
+    public function makePDF($resumeId)
+    {
+        $arDetailResumeInfo = $this->getDetailInfo($resumeId);
+        view()->share('data', $arDetailResumeInfo);
+        return PDF::loadView('mng.resume.download-pdf', $arDetailResumeInfo);
+    }
+
+    public function exportPDF($resumeId)
+    {
+        $arDetailResumeInfo = $this->getDetailInfo($resumeId);
+        view()->share('data', $arDetailResumeInfo);
+        $pdf = PDF::loadView('mng.resume.download-pdf', $arDetailResumeInfo);
+        return $pdf->download('cv-' . $arDetailResumeInfo['resume']->fullname . '.pdf');
+    }
+
+
+    public function changeStatus($resumeId, $statusId)
+    {
         $resume = $this->resumeRepository->getById($resumeId);
         $resume->resume_status_id = $statusId;
         $resume->save();
 
         return $resume;
-   }
+    }
 
-   public function changePoints($resumeId, $fields)
-   {
+    public function changePoints($resumeId, $fields)
+    {
         $resume = $this->resumeRepository->getById($resumeId);
-        
+
         foreach ($fields as $key => $field) {
             $answer = $this->formAnswerRepository->getByID($key);
             $answer->points = $field;
@@ -86,33 +117,41 @@ class ResumeService{
 
         $points = $this->formAnswerRepository->getPoints($resume->form_id, $resume->id);
         $resume->points = $points;
-        $resume->save();    
+        $resume->save();
 
         return $resume;
-   }
+    }
 
-   public function getDetailInfo($id) : array
-   {
+    public function getDetailInfo($id): array
+    {
 
-    $data = [];
+        $data = [];
 
-    $data['resume'] = $this->resumeRepository->getById($id);
-    $data['form'] = $this->formRepository->getById($data['resume']->form_id);
+        $data['resume'] = $this->resumeRepository->getById($id);
+        $data['form'] = $this->formRepository->getById($data['resume']->form_id);
+        $data['formFields'] = FormField::where(['form_id' => $data['resume']->form_id])->with(['answers' => function ($query) use ($id) {
+            $query->where('forms_answers.resume_id', '=', $id);
+        }])->get();
 
-    $data['formFields'] = FormField::where(['form_id' => $data['resume']->form_id])->with(['answers' => function($query) use($id){
-        $query->where('forms_answers.resume_id', '=', $id);
-    }])->get();
+        $data['resumeStatuses'] = $this->resumeStatusRepository->all();
+        $data['experience'] = $this->experienceRepository->getByColumn('resume_id', $data['resume']->id);
+        $data['education'] = $this->educationRepository->getByColumn('resume_id', $data['resume']->id);
+        $data['userPhoto'] = $this->getResumePhoto($data['resume']->photo_id);
 
-    $data['resumeStatuses'] = $this->resumeStatusRepository->all();
-    $data['experience'] = $this->experienceRepository->getByColumn('resume_id', $data['resume']->id);
-    $data['education'] = $this->educationRepository->getByColumn('resume_id', $data['resume']->id);
-    $data['userPhoto'] = $this->fileRepository->getById($data['resume']->photo_id);
-
-    return $data;
+        return $data;
 
     }
 
-    public function getDetailAdditionalInfo($id) : array
+    public function getResumePhoto($photoId)
+    {
+        if ((int)$photoId == 0) {
+            return null;
+        }
+
+        return $this->fileRepository->getById($photoId);
+    }
+
+    public function getDetailAdditionalInfo($id): array
     {
 
         $data['testResults'] = $this->testResultRepository->getByColumnWith('resume_id', $id, 'test:id,name');
@@ -123,35 +162,12 @@ class ResumeService{
 
     }
 
-    public function saveResume($formId, $company, $arFields)
-    {
-        $resume = new Resume();
-        $resume->is_active = 1;
-        $resume->sort = 100;
-        $resume->points = 0;
-        $resume->form_id = $formId;
-        $resume->user_id = $company->user_id;
-        $resume->company_id = $company->id;
-
-        $resume->name = $arFields['resume:name'];
-        $resume->second_name = $arFields['resume:second_name'];
-        $resume->last_name = $arFields['resume:last_name'];
-        $resume->phone = $arFields['resume:phone'];
-        $resume->email = $arFields['resume:email'];
-        $resume->resume_status_id = 1;
-        $resume->description = '';
-        $resume->code = rand(1000,9999).time().rand(1000,9999);
-            
-        $resume->save();
-
-        return $resume;
-    }
 
     public function saveExperience($resumeId, $companyId, $arExperience)
     {
         foreach ($arExperience as $key => $field) {
-            
-            if($field['company_name'] != '' && $field['period'] != ''){
+
+            if ($field['company_name'] != '' && $field['period'] != '') {
                 $experience = new Experience();
                 $experience->company_name = $field['company_name'];
                 $experience->period = $field['period'];
@@ -172,7 +188,7 @@ class ResumeService{
     {
         foreach ($arEducation as $key => $field) {
 
-            if($field['place'] != '' && $field['period'] != ''){
+            if ($field['place'] != '' && $field['period'] != '') {
 
                 $education = new Education();
                 $education->place = $field['place'];
@@ -189,13 +205,13 @@ class ResumeService{
         unset($key);
     }
 
-    public function savePhoto(Resume $resume,array $arFiles)
+    public function savePhoto(Resume $resume, array $arFiles): Resume
     {
-        //save files
-        if(count($arFiles) > 0){
+
+        if (count($arFiles) > 0) {
             foreach ($arFiles as $key => $file) {
 
-                $userPhoto = $resume->files()->create([ 
+                $userPhoto = $resume->files()->create([
                     'description' => '-',
                     'url' => $file['url'],
                     'original_name' => $file['original_name'],
@@ -203,47 +219,45 @@ class ResumeService{
                     'company_id' => $resume->company_id,
                     'user_id' => $resume->user_id,
                 ]);
-                
-                
+
+
                 $resume->photo_id = intval($userPhoto->id);
             }
         }
-        
+
         $resume->save();
 
         return $resume;
     }
 
-    public function saveAnswers($formId, $resumeId, $companyId, $arFields)
+    public function saveAnswers($formId, $resumeId, $companyId, $arFields): int
     {
         foreach ($arFields as $key => $field) {
-            
+
             $fieldId = explode(':', $key)[1];
             $hasValue = false;
             $fieldVariantId = null;
             $points = 0;
 
-            if(strstr($fieldId, '#')){
-                
+            if (strstr($fieldId, '#')) {
+
                 $arString = explode('#', $fieldId);
                 $hasValue = true;
                 $fieldId = $arString[0];
                 $fieldVariantId = $arString[1];
-                
-                if($field != null){
+
+                if ($field != null) {
                     $points = FormFieldVariant::where('id', $fieldVariantId)->first()->points;
                     $points += $points;
                 }
 
-                
-                
 
-            }else if(intval($fieldId) > 0){
+            } else if (intval($fieldId) > 0) {
                 $hasValue = true;
             }
 
 
-            if($hasValue && $field != null){
+            if ($hasValue && $field != null) {
                 $answer = new FormAnswer();
                 $answer->sort = 100;
                 $answer->points = $points;
@@ -264,32 +278,29 @@ class ResumeService{
 
     public function notifyUser($user, $resume, $pdf)
     {
-        $url = config('app.url').route('resume.detail', $resume->id);
+        $url = config('app.url') . route('resume.detail', $resume->id);
 
         Mail::to($user)->send(new ResumeAdd($resume, $url, $pdf));
-        
+
         //send to telegram
-        if($user->telegram){
+        if ($user->telegram) {
 
             $host = config('app.url');
-            $pdf_name = $resume->id.time().".pdf";
-            $path = '/upload/pdf/resume/'.$pdf_name;
+            $pdf_name = $resume->id . time() . ".pdf";
+            $path = '/upload/pdf/resume/' . $pdf_name;
             $pdf->save(public_path($path));
 
-            Telegram::sendMessageProxy($user->telegram, 'Новое резюме от '.$resume->full_name.' / '.$resume->phone); 
-            Telegram::sendFile($user->telegram, $host.$path);
+            Telegram::sendMessageProxy($user->telegram, 'Новое резюме от ' . $resume->full_name . ' / ' . $resume->phone);
+            Telegram::sendFile($user->telegram, $host . $path);
 
         }
 
-        if($user->viber){ 
-            Viber::sendMessage($user->viber, 'Новое резюме от '.$resume->full_name.' / '.$resume->phone); 
+        if ($user->viber) {
+            Viber::sendMessage($user->viber, 'Новое резюме от ' . $resume->full_name . ' / ' . $resume->phone);
             $fileSize = File::size(public_path($path));
-            Viber::sendFile($user->viber , 'Резюме.pdf', $host.$path, $fileSize);
+            Viber::sendFile($user->viber, 'Резюме.pdf', $host . $path, $fileSize);
         }
     }
 
-
-
-   
 
 }

@@ -22,7 +22,7 @@ class FormSeeder extends Seeder
             'code' => $arCodes[0],
             'sort' => 100,
             'is_active' => 1,
-            'company_id' => 3,
+            'company_id' => 1,
             'user_id' => 1,
         ]);
     }
