@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Form;
 
-use App\Models\Form;
+
 use App\Repositories\Interfaces\Resume\ResumeRepositoryInterface;
 use App\Repositories\Interfaces\Resume\ResumeStatusRepositoryInterface;
 use App\Repositories\Interfaces\Resume\ExperienceRepositoryInterface;
@@ -14,6 +14,7 @@ use App\Repositories\Interfaces\Test\TestResultRepositoryInterface;
 use App\Repositories\Interfaces\Test\TestResumeRepositoryInterface;
 use App\Repositories\Interfaces\FileRepositoryInterface;
 
+use App\Models\Form\Form;
 use App\Models\Form\FormField;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,7 +52,7 @@ class FormService{
 
     }
 
-    public function saveForm(array $arForm,array $arFields,array $arFieldsVariant,int $formId) : Form
+    public function saveForm(array $arForm,array $arFields,int $formId, ?array $arFieldsVariant) : Form
     {
         $userId = Auth::id();
         $companyId = Auth::user()->company->id;

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Test\Question\Question;
+use App\Models\Test\Question\QuestionAnswer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\Test\Question;
-use App\Models\Test\QuestionAnswer;
+
 
 class QuestionController extends BaseController
 {
@@ -19,7 +20,7 @@ class QuestionController extends BaseController
 
     public function show($id)
     {
-        $question = Question::where(['user_id' => Auth::id(), 'id' => $id])->with(['questions'])->first();
+        $question = Question::where(['user_id' => Auth::id(), 'id' => $id])->with(['answers'])->first();
 
         if (empty($question)) {
             abort(404);

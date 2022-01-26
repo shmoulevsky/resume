@@ -9,12 +9,17 @@ use Illuminate\Support\Collection;
 
 class ResumeStatusRepository extends BaseRepository implements ResumeStatusRepositoryInterface{
 
-    
+
    public function __construct(ResumeStatus $model)
    {
        parent::__construct($model);
    }
 
-   
-   
+   public function getAll()
+   {
+       return ResumeStatus::orderBy('sort')->get();
+   }
+
+
+
 }

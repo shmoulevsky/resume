@@ -5,13 +5,13 @@
         <tr class="bg-gray-100 border border-gray-100">
 
             <th class="px-4 py-2 w-20">No.</th>
-            <th class="px-4 py-2">Дата прохождения</th>
-            <th class="px-4 py-2">Название</th>
-            <th class="px-4 py-2">Баллы</th>
-            <th class="px-4 py-2">Всего вопросов</th>
-            <th class="px-4 py-2">Правильных</th>
-            <th class="px-4 py-2">Время</th>
-            <th class="px-4 py-2">Подробнее</th>
+            <th class="px-4 py-2">{{__('resume-detail.TestResult_date')}}</th>
+            <th class="px-4 py-2">{{__('resume-detail.TestResult_title')}}</th>
+            <th class="px-4 py-2">{{__('resume-detail.TestResult_points')}}</th>
+            <th class="px-4 py-2">{{__('resume-detail.TestResult_total')}}</th>
+            <th class="px-4 py-2">{{__('resume-detail.TestResult_right')}}</th>
+            <th class="px-4 py-2">{{__('resume-detail.TestResult_time')}}</th>
+            <th class="px-4 py-2">{{__('resume-detail.TestResult_more')}}</th>
 
         </tr>
 
@@ -31,15 +31,15 @@
             <td class="border px-4 py-2">{{ $test->count_right }}</td>
             <td class="border px-4 py-2">{{ $test->timer }}</td>
             <td class="border px-4 py-2">
-                <a href="">Подробнее</a>
+                <a href="">{{__('resume-detail.TestResult_more')}}</a>
             </td>
-    
+
 
         </tr>
         @empty
-            <tr><td class="p-5" colspan="8">Нет записей</td></tr>
+            <tr><td class="p-5" colspan="8">{{__('resume-detail.TestResult_no_records')}}</td></tr>
         @endforelse
-        
+
 
     </tbody>
 

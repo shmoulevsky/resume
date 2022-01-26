@@ -13,24 +13,31 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        Главная
+                        {{__('menu-top.Home')}}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('resume.list') }}" :active="request()->routeIs('resume.list')">
-                        Резюме
+                        {{__('menu-top.Resume')}}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('forms.list') }}" :active="request()->routeIs('forms.list')">
-                        Формы
+                        {{__('menu-top.Forms')}}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('interviews.list') }}" :active="request()->routeIs('interviews.list')">
-                        Собеседования
+                        {{__('menu-top.Interviews')}}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('tariff.user.show') }}" :active="request()->routeIs('tariff.user.show')">
-                        Тариф
+                        {{__('menu-top.Tariff')}}
                     </x-jet-nav-link>
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+           <div class="flex">
+                <div class="mt-3">
+                <select id="locale-change">
+                    <option value="ru" @if(app()->getLocale() === 'ru')selected="selected"@endif>Ru</option>
+                    <option value="en" @if(app()->getLocale() === 'en')selected="selected"@endif>En</option>
+                </select>
+            </div>
+                <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
@@ -134,7 +141,7 @@
                     </x-jet-dropdown>
                 </div>
             </div>
-
+            </div>
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -151,10 +158,10 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                Главная
+                {{__('menu-top.Home')}}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                Формы
+                {{__('menu-top.Forms')}}
             </x-jet-responsive-nav-link>
         </div>
 

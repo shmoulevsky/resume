@@ -3,9 +3,9 @@
         <tr class="bg-gray-100 border border-gray-100">
             <th style="width:5%;"> </th>
             <th class="px-4 py-2 w-20">No.</th>
-            <th class="px-4 py-2">Название</th>
-            <th class="px-4 py-2">Дата</th>
-            <th class="px-4 py-2">Кол-во вопросов</th>
+            <th class="px-4 py-2">{{__('test-list.Table_title')}}</th>
+            <th class="px-4 py-2">{{__('test-list.Table_date')}}</th>
+            <th class="px-4 py-2">{{__('test-list.Table_count')}}</th>
         </tr>
     </thead>
     <tbody>
@@ -18,8 +18,8 @@
             <td class="border px-4 py-2">{{ $test->questions_count }}</td>
         </tr>
         @empty
-            <tr><td class="p-5" colspan="9">Нет записей</td></tr>
+            <tr><td class="p-5" colspan="9">{{__('test-list.Table_No_records')}}</td></tr>
         @endforelse
-       
+
     </tbody>
 </table>

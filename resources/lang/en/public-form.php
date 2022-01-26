@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'Title' => 'Vacancy :company from the company',
+    'Sending' => 'Sending',
+    'Vacancy' => 'Resume for the vacancy',
+    'Company' => 'Company',
+    'Step1' => 'Step 1: Info',
+    'Step2' => 'Step 2: Experience and Education',
+    'Step3' => 'Step 3: Questionnaire',
+    'Lastname' => 'Last Name',
+    'Name' => 'Name',
+    'Patronymic' => 'Patronymic',
+    'Phone' => 'Phone',
+    'Email' => 'E-mail',
+    'Photo' => 'Photo (max. 3Mb)',
+    'File' => 'Select a file (up to 3MB)',
+    'Work experience' => 'Work experience',
+    'Organization' => 'Organization',
+    'Position' => 'Position',
+    'Period' => 'Period of operation',
+    'Duty' => 'Job responsibilities',
+    'Add work place' => 'Add another place of work',
+    'Education' => 'Education',
+    'Education place' => 'Educational institution',
+    'Speciality' => 'Specialty',
+    'Education period' => 'Training period',
+    'Add education' => 'Add another educational institution',
+    'Back' => 'Back',
+    'Next' => 'Next',
+    'Send' => 'Send',
+];
+

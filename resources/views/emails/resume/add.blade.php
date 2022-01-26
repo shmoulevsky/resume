@@ -1,9 +1,9 @@
-Заполнено новое резюме от {{$resume->fullname}}. Для просмотра нажмите на кнопку ниже.
+{{__('email-new-resume.Title', ['fullname' => $resume->fullname])}}
 <br>
-Телефон: {{$resume->phone}}
+{{__('email-new-resume.Phone')}}: {{$resume->phone}}
 <br>
-Email: {{$resume->email}}
+{{__('email-new-resume.Email')}}: {{$resume->email}}
 <br><br>
 @component('mail::button', ['url' => $url, 'color' => 'success'])
-смотреть резюме
+    {{__('email-new-resume.Detail')}}
 @endcomponent

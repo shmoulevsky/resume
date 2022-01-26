@@ -2,29 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Test\Question\Question;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-
-use App\Mail\TestFinished;
-
 use Illuminate\Http\Request;
 use App\Models\Test\Test;
-use App\Models\User;
-use App\Models\Test\TestResume;
-use App\Models\Resume\Resume;
-use App\Models\Test\Question;
-use App\Models\Test\QuestionAnswer;
 use App\Models\Test\TestQuestion;
-
-use App\Models\Company;
-use App\Models\Test\TestResult;
-use App\Models\Test\TestsResultsAnswer;
-
 use App\Services\Test\TestService;
 use App\Services\Test\TestManager;
-
-use App\DataTransferObjects\UserQuestionAnswerDTO;
 
 class TestController extends BaseController
 {

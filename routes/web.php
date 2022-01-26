@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\User\UserResumeController;
 use App\Http\Controllers\User\UserTestController;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,7 @@ Route::get('/messengers/viber/setup', [MessengerController::class, 'setupViber']
 Route::middleware(['auth:sanctum', 'verified'])->prefix('/mng')->group(function () {
 
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
+    Route::get('/locale/{locale}', [LocaleController::class, 'change'])->name('locale');
 
     Route::get('resume/show', [ResumeController::class, 'index'])->name('resume.list');
     Route::get('resume/canban', [ResumeController::class, 'indexCanban'])->name('resume.list.canban');

@@ -15,13 +15,15 @@
         <link rel="stylesheet" href="{{'/css/main.css'}}">
         <link rel="stylesheet" href="{{'/css/mng/main.css'}}">
         <link rel="stylesheet" href="{{'/js/jquery.datetimepicker.min.css'}}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
         @livewireStyles
 
         <!-- Scripts -->
-        <script src="//code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script src="/js/helpers.js" ></script>
+        <script src="/js/lang/mng/lang.js" ></script>
+        <script src="/js/translator.js" ></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
         <script src="{{'/js/mng/main.js'}}" defer></script>
         <script src="{{'/js/jquery.datetimepicker.full.min.js'}}" defer></script>
@@ -51,7 +53,7 @@
         </div>
 
         @stack('modals')
-        @include('common.message') 
+        @include('common.message')
         @livewireScripts
     </body>
 </html>

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-use App\Models\Company;
 use App\Services\Resume\ResumeService;
 use PDF;
 
@@ -35,7 +34,7 @@ class ResumeController extends BaseController
     {
 
         $user_id = Auth::user()->id;
-        $resumeStatuses = $this->resumeService->resumeStatusRepository->all();
+        $resumeStatuses = $this->resumeService->resumeStatusRepository->getAll();
         $resumes = $this->resumeService->resumeRepository->getGroupedByStatus($user_id);
         $resumeId = $this->resumeService->resumeRepository->getListId($user_id)->pluck('id')->toArray();
 

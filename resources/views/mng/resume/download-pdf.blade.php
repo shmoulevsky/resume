@@ -66,7 +66,7 @@
 
         <div class="resume-inner bg-white overflow-hidden shadow-xl sm:rounded-lg px-10 py-10">
             <div style="display:none;" class="resume-err mb-12 text-red-500 border-2 border-red-300 rounded py-3 px-6"></div>
-            <h1 class="text-4xl mb-5"><span class="text-gray-400">Резюме на вакансию</span> &laquo;{{$data['form']->name}}&raquo;</h1>
+            <h1 class="text-4xl mb-5"><span class="text-gray-400">{{__('resume-pdf.Vacancy')}}</span> &laquo;{{$data['form']->name}}&raquo;</h1>
 
             <div class="flex">
                 <div class="my-5 flex resume-top">
@@ -78,7 +78,7 @@
                     <div class="text-xl my-2 block" ><span class="">{{$data['resume']->phone}}</span></div>
                     <div class="text-xl my-2 block" ><span class="">{{$data['resume']->email}}</span></div>
                     <div class="text-xl my-2 block" ><span class="">{{$data['resume']->created_at}}</span></div>
-                    <div class="text-xl my-2 block" ><span class="">Статус: {{$data['resume']->status->name}}</span></div>
+                    <div class="text-xl my-2 block" ><span class="">{{__('resume-pdf.Status')}}: {{__('resume-status.'.$data['resume']->status->name)}}</span></div>
                     <div class="text-xl my-2 block" ><span id="total-points" class="">{{$resume->points}} {{Helper::declOfNum($resume->points, ['балл','балла','баллов'])}}</span></div>
                     </div>
                 </div>

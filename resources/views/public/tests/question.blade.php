@@ -1,7 +1,4 @@
 
-
-            
-           
                 <div class="my-6">
                     @if($question->type == 1 || $question->type == 2)
                     <label class="text-xl block mb-3 my-2 block" for="">{{$question->question}}</label>
@@ -22,22 +19,22 @@
                         <div class="flex">
                         <div class="compare-col">
                         @foreach($answersLeft as $keyA => $answer)
-                            
+
                             <div class="mb-5">
                                 <span data-id="{{$answer->id}}" data-type="left" class="answer-compare answer-clickable {{ isset($answersExist[$answer->id]) ? 'active' : '' }}">{{ isset($answersExist[$answer->id]) ? $answersExist[$answer->id]['number'] : '' }}</span>
                                 <span class=""><?=$keyA+1?>.<?=$answer->answer?></span>
                             </div>
-                            
+
                         @endforeach
                         </div>
                         <div class="compare-col">
                         @foreach($answersRight as $keyB => $answer)
-                            
+
                             <div class="mb-5">
                                 <span data-id="{{$answer->id}}" data-type="right" class="answer-compare answer-clickable">{{ isset($answersExist[$answer->id]) ? $answersExist[$answer->id]['number'] : '' }}</span>
                                 <span class=""><?=$keyB+1?>.<?=$answer->answer?></span>
                             </div>
-                           
+
                         @endforeach
                         </div>
                         </div>
@@ -64,7 +61,7 @@
                    <input type="hidden" id="last-item-order" value="{{$lastItemOrder}}">
                    <input type="hidden" id="last-item-left" value="{{$lastItemLeft}}">
                    <input type="hidden" id="last-item-right" value="{{$lastItemRight}}">
-                  
+
 @php
  //echo "<pre>"; print_r($answersExist);echo "</pre>";
 @endphp

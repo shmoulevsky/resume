@@ -1,11 +1,11 @@
 @extends('mng.master')
-@section('title', 'Резюме: '.$resume->full_name)
+@section('title', __('resume-detail.Title').': '.$resume->full_name)
 @section('content')
 <div class="mb-5">{{ Breadcrumbs::render('resume.detail', $resume) }}</div>
 
         <div class="resume-inner">
             <div style="display:none;" class="resume-err mb-12 text-red-500 border-2 border-red-300 rounded py-3 px-6"></div>
-            <h1 class="text-4xl mb-5"><span class="text-gray-400">Резюме на вакансию</span> &laquo;{{$form->name}}&raquo;</h1>
+            <h1 class="text-4xl mb-5"><span class="text-gray-400">{{__('resume-detail.Vacancy')}}</span> &laquo;{{$form->name}}&raquo;</h1>
 
             <div class="flex">
 
@@ -22,7 +22,7 @@
                     <div class="text-lg underline text-blue-700  my-2 block" ><span class="relative"><a target="_blank" href="{{route('resume.public.show', [$companyId, $resume->code])}}">ссылка на профиль</a><span class="copy-icon copy-public-resume-url" data-url="{{route('resume.public.show', [$companyId, $resume->code])}}"></span></span></div>
                     <div class="text-xl mb-2 mt-6 block" >
                     @foreach($resumeStatuses as $status)
-                        <span data-status-id="{{$status->id}}" data-resume-id="{{$resume->id}}" data-label="status:{{$status->id}}" class="status-field status-field-btn @if($status->id == $resume->status->id) active @endif border rounded-full py-1 px-2 mr-1 border-gray-300 text-sm field-variant {{$status->code}}">{{$status->name}}</span>
+                        <span data-status-id="{{$status->id}}" data-resume-id="{{$resume->id}}" data-label="status:{{$status->id}}" class="status-field status-field-btn @if($status->id == $resume->status->id) active @endif border rounded-full py-1 px-2 mr-1 border-gray-300 text-sm field-variant {{$status->code}}">{{__('resume-status.'.$status->name)}}</span>
                     @endforeach
                     </div>
                     </div>
@@ -81,22 +81,22 @@
 
 
             <div class="my-5">
-            <span>Действия:</span>
-            <a href="{{route('resume.list')}}"  class="inline-block border border-gray-200 hover:border-gray-400 font-bold py px-2 rounded my-3">К списку</a>
-            <a href="#" id="change-points" class="inline-block change-points border-blue-500 border hover:bg-blue-500 hover:text-white font-bold py px-3 rounded mb-6">Оценить</a>
-            <a href="#" id="create-interview" class="inline-block border-green-500 border hover:bg-green-500 hover:text-white font-bold py px-3 rounded mb-6">Создать собеседование</a>
-            <a href="{{route('resume.export.pdf', ['id' => $resume->id])}}" class="inline-block border-purple-600 border hover:bg-purple-600 hover:text-white font-bold py px-3 rounded mb-6">Скачать PDF</a>
-            <a href="#" id="assign-test" class="inline-block border-purple-600 border hover:bg-purple-600 hover:text-white font-bold py px-3 rounded mb-6">Назначить тест</a>
+            <span>{{__('resume-detail.Actions')}}:</span>
+            <a href="{{route('resume.list')}}"  class="inline-block border border-gray-200 hover:border-gray-400 font-bold py px-2 rounded my-3">{{__('resume-detail.To_list')}}</a>
+            <a href="#" id="change-points" class="inline-block change-points border-blue-500 border hover:bg-blue-500 hover:text-white font-bold py px-3 rounded mb-6">{{__('resume-detail.Mark')}}</a>
+            <a href="#" id="create-interview" class="inline-block border-green-500 border hover:bg-green-500 hover:text-white font-bold py px-3 rounded mb-6">{{__('resume-detail.Make_Interview')}}</a>
+            <a href="{{route('resume.export.pdf', ['id' => $resume->id])}}" class="inline-block border-purple-600 border hover:bg-purple-600 hover:text-white font-bold py px-3 rounded mb-6">{{__('resume-detail.Download_PDF')}}</a>
+            <a href="#" id="assign-test" class="inline-block border-purple-600 border hover:bg-purple-600 hover:text-white font-bold py px-3 rounded mb-6">{{__('resume-detail.Assign_test')}}</a>
             <input type="hidden" id="rid" value="{{$resume->id}}"/>
             </div>
 
             <div class="my-8">
                 <div>
                     <ul class="tab-wrap_links">
-                        <li data-tab="1" class="active">Комментарии</li>
-                        <li data-tab="2">Тесты</li>
-                        <li data-tab="3">Результаты тестирования</li>
-                        <li data-tab="4">Собеседования</li>
+                        <li data-tab="1" class="active">{{__('resume-detail.Comments')}}</li>
+                        <li data-tab="2">{{__('resume-detail.Tests')}}</li>
+                        <li data-tab="3">{{__('resume-detail.Test_result')}}</li>
+                        <li data-tab="4">{{__('resume-detail.Interviews')}}</li>
                     </ul>
                 </div>
 

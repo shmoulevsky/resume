@@ -44,10 +44,11 @@ class FormController extends BaseController
         $arFields = $request->post('fields');
         $arFieldsVariant = $request->post('fieldsVariant');
         $formId = intval($request->post('form_id'));
-        $this->formService->saveForm($arForm, $arFields, $arFieldsVariant, $formId);
+
+        $this->formService->saveForm($arForm, $arFields, $formId, $arFieldsVariant);
 
         return response()->json([
-            'id' => $form->id,
+            'id' => $formId,
             'status' => 'success'
         ]);
     }

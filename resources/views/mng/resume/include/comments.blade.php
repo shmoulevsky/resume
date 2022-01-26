@@ -1,15 +1,15 @@
-<span>Написать комментарий:</span>
+<span>{{__('resume-detail.Write_comment')}}:</span>
 <div class="comment-form">
-    <form> 
-        <div>   
+    <form>
+        <div>
             <textarea data-name="comment" id="comment" class="comment-form-field border-gray-300 w-2/4 p-3"></textarea>
         </div>
-        
-        <button id="comment-save-btn" class="inline-block my-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-6" type="button" name="action">Отправить</button>
+
+        <button id="comment-save-btn" class="inline-block my-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-6" type="button" name="action">{{__('resume-detail.Send_comment')}}</button>
 
         <input class="comment-form-field"  type="hidden" data-name="entity-id" value="{{$resume->id}}"/>
         <input class="comment-form-field"  type="hidden" data-name="entity-type" value="resume"/>
-    </form>         
+    </form>
 </div>
 @forelse($resume->comments as $comment)
     <div class="comment-item mb-8 flex w-2/4">
@@ -24,7 +24,7 @@
             </div>
             <span data-url="{{route('comments.delete', $comment->id)}}" class="delete-comment-btn delete-icon small"></span>
         </div>
-    </div> 
+    </div>
 @empty
-<p>Комментариев пока нет</p>
+<p>{{__('resume-detail.No_comment')}}</p>
 @endforelse

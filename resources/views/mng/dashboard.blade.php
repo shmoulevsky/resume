@@ -1,84 +1,84 @@
 
 @extends('mng.master')
-@section('title', 'Главная')
+@section('title', __('dashboard.Title'))
 @section('content')
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"><h2 class="text-2xl text-gray-400 mb-4 leading-8 mt-6">Резюме</h2></div>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex">               
-        
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"><h2 class="text-2xl text-gray-400 mb-4 leading-8 mt-6">{{__('dashboard.Resume')}}</h2></div>
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex">
+
         <div class="flex-1 shadow-xl sm:rounded-lg px-6 py-6 ">
-            <div class="flex"> 
+            <div class="flex">
                 <div class="ml-auto">
-                    <div class="bg-green-500 p-2 rounded-lg text-white cursor-pointer flex"> 5% 
+                    <div class="bg-green-500 p-2 rounded-lg text-white cursor-pointer flex"> 5%
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up w-4 h-4 w-4 h-4"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </div>
                 </div>
             </div>
-            <div class="text-3xl font-bold leading-8 mt-6">5 шт.</div>
-            <div class="text-gray-400 text-base mt-1">За сегодня</div>
+            <div class="text-3xl font-bold leading-8 mt-6">5 {{__('dashboard.Unit')}}</div>
+            <div class="text-gray-400 text-base mt-1">{{__('dashboard.Today')}}</div>
         </div>
-        
+
         <div class="flex-1 shadow-xl mx-8 sm:rounded-lg px-6 py-6 ">
-            <div class="flex"> 
+            <div class="flex">
                 <div class="ml-auto">
-                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 10% 
+                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 10%
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up w-4 h-4 w-4 h-4"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </div>
                 </div>
             </div>
-            <div class="text-3xl font-bold leading-8 mt-6">10 шт.</div>
-            <div class="text-gray-400 text-base mt-1">За неделю</div>
+            <div class="text-3xl font-bold leading-8 mt-6">10 {{__('dashboard.Unit')}}</div>
+            <div class="text-gray-400 text-base mt-1">{{__('dashboard.Week')}}</div>
         </div>
 
         <div class="flex-1 shadow-xl sm:rounded-lg px-6 py-6 bg-gradient-to-r from-blue-400 to-indigo-500">
-            <div class="flex"> 
+            <div class="flex">
                 <div class="ml-auto">
-                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 33% 
+                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 33%
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up w-4 h-4 w-4 h-4"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </div>
                 </div>
             </div>
-            <div class="text-white text-3xl font-bold leading-8 mt-6">10 шт.</div>
-            <div class="text-white text-base mt-1">Всего резюме</div>
+            <div class="text-white text-3xl font-bold leading-8 mt-6">10 {{__('dashboard.Unit')}}</div>
+            <div class="text-white text-base mt-1">{{__('dashboard.All')}}</div>
         </div>
 
     </div>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"><h2 class="text-2xl text-gray-400 mb-4 leading-8 mt-6">Собеседования</h2></div>
-    <div class="max-w-7xl mx-auto my-8 sm:px-6 lg:px-8 flex">               
-        
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"><h2 class="text-2xl text-gray-400 mb-4 leading-8 mt-6">{{__('dashboard.Interviews')}}</h2></div>
+    <div class="max-w-7xl mx-auto my-8 sm:px-6 lg:px-8 flex">
+
         <div class="flex-1 shadow-xl sm:rounded-lg px-6 py-6 ">
-            <div class="flex"> 
+            <div class="flex">
                 <div class="ml-auto">
-                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 5% 
+                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 5%
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up w-4 h-4 w-4 h-4"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </div>
                 </div>
             </div>
-            <div class="text-3xl font-bold leading-8 mt-6">2 шт.</div>
-            <div class="text-gray-400 text-base mt-1">За сегодня</div>
+            <div class="text-3xl font-bold leading-8 mt-6">2 {{__('dashboard.Unit')}}</div>
+            <div class="text-gray-400 text-base mt-1">{{__('dashboard.Today')}}</div>
         </div>
-        
+
         <div class="flex-1 shadow-xl mx-8 sm:rounded-lg px-6 py-6 ">
-            <div class="flex"> 
+            <div class="flex">
                 <div class="ml-auto">
-                    <div class="bg-green-500 p-2 rounded-lg text-white cursor-pointer flex"> 12% 
+                    <div class="bg-green-500 p-2 rounded-lg text-white cursor-pointer flex"> 12%
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up w-4 h-4 w-4 h-4"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </div>
                 </div>
             </div>
-            <div class="text-3xl font-bold leading-8 mt-6">4 шт.</div>
-            <div class="text-gray-400 text-base mt-1">За неделю</div>
+            <div class="text-3xl font-bold leading-8 mt-6">4 {{__('dashboard.Unit')}}</div>
+            <div class="text-gray-400 text-base mt-1">{{__('dashboard.Week')}}</div>
         </div>
 
         <div class="flex-1 shadow-xl sm:rounded-lg px-6 py-6 bg-gradient-to-r from-green-200 to-green-600">
-            <div class="flex"> 
+            <div class="flex">
                 <div class="ml-auto">
-                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 33% 
+                    <div class="bg-red-500 p-2 rounded-lg text-white cursor-pointer flex"> 33%
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up w-4 h-4 w-4 h-4"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </div>
                 </div>
             </div>
-            <div class="text-white text-3xl font-bold leading-8 mt-6">15 шт.</div>
-            <div class="text-white text-base mt-1">Всего</div>
+            <div class="text-white text-3xl font-bold leading-8 mt-6">15 {{__('dashboard.Unit')}}</div>
+            <div class="text-white text-base mt-1">{{__('dashboard.All')}}</div>
         </div>
 
     </div>
@@ -99,7 +99,7 @@
         data: {
             labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб','Вс'],
             datasets: [{
-                label: 'шт. собеседований',
+                label: '{{__('dashboard.Interview_count')}}',
                 data: [12, 8, 3, 5, 2, 3,1],
                 backgroundColor: [
                     '#636bf2',
@@ -124,17 +124,17 @@
     });
 
     var ctx2 = document.getElementById('myChart2').getContext('2d');
-   
+
     var resData = {
         labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб','Вс'],
         datasets: [{
-            label: "Кол-во резюме шт.",
+            label: "{{__('dashboard.Resume_count')}}",
             data: [0, 4, 5, 2, 5, 7, 1,2],
             lineTension: 0,
             fill: false,
             borderColor: '#636bf2',
             backgroundColor: 'transparent',
-           
+
             pointBorderColor: '#636bf2',
             pointBackgroundColor: '#636bf2',
             pointRadius: 5,

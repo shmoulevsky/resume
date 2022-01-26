@@ -97,7 +97,7 @@ $(function(){
 
 
 		if( $('.confirmation').prop( 'checked' )){
-			arErr.push('Для сохранения нажмите на галочку согласие');
+			arErr.push(tr.i18n('To save agree'));
 		}
 
 
@@ -117,7 +117,7 @@ $(function(){
 
 					Wait.hide();
 					clearForm();
-					Message.showSuccess('Инфо','Спасибо! Ваше резюме было отправлено!','Ок, понятно');
+					Message.showSuccess(tr.i18n('Info'),tr.i18n('Thanks resume was saved'), tr.i18n('Ok message'));
 
 
 				} else {
@@ -135,7 +135,7 @@ $(function(){
 				htmlEr +=  item + '<br/>';
 				}); */
 
-				$('.resume-err').html('Заполнены не все поля! Проверьте заполнение полей.');
+				$('.resume-err').html(tr.i18n('Not all fields are filled! Check the fields.'));
 				$('.resume-err').fadeIn();
 
 				var body = $("html, body");
@@ -175,7 +175,7 @@ $(function(){
 			console.log(response);
 		},
 		error: function(file, message) {
-			$('.files-fields-wrap').html('Ошибка загрузки файла. Проверьте размер (не более 1Мб)');
+			$('.files-fields-wrap').html(tr.i18n('File upload error. Check the size (no more than 1Mb)'));
 		}
 	});
 
@@ -189,20 +189,20 @@ $(function(){
 		let html = `<div class="mb-2 experience-field" data-id="${currentExperienceField}">
 		<div class="md:flex">
 		<div>
-			<label class="text-xl my-2 block" for="">Организация</label>
+			<label class="text-xl my-2 block" for="">${tr.i18n('Company')}</label>
 			<input data-label="company_name"  class="border w-full border-gray-300 block focus:ring-purple-600" type="text" value="">
 		</div>
 		<div class="md:ml-5 md:mr-5">
-			<label class="text-xl my-2 block" for="">Должность</label>
+			<label class="text-xl my-2 block" for="">${tr.i18n('Position')}</label>
 			<input data-label="position" class="border w-full border-gray-300 block focus:ring-purple-600" type="text" value="">
 		</div>
 		<div>
-			<label class="text-xl my-2 block" for="">Период работы</label>
+			<label class="text-xl my-2 block" for="">${tr.i18n('Work period')}</label>
 			<input data-label="period" class="border w-full border-gray-300 block focus:ring-purple-600" type="text" value="">
 		</div>
 		</div>
 		<div class="mb-2">
-			<div><label class="text-xl my-2 block" for="">Должностные обязанности</label></div>
+			<div><label class="text-xl my-2 block" for="">${tr.i18n('Duty')}</label></div>
 			<textarea data-label="description" class="mw-728 border lg:w-4/6 w-full border-gray-300 block resize-none focus:ring-purple-600" ></textarea>
 		</div>
 	</div>`;
@@ -215,15 +215,15 @@ $(function(){
 	$(document).on("click", ".add-education", function (e) {
 		let html = `<div data-id="${currentEducationField}" class="md:flex mb-2 education-field">
 		<div>
-			<label class="text-xl my-2 block" for="">Учеб. заведение</label>
+			<label class="text-xl my-2 block" for="">${tr.i18n('Educational institution')}</label>
 			<input data-label="place" class="border w-full border-gray-300 block focus:ring-purple-600" type="text" value="">
 		</div>
 		<div class="md:ml-5 md:mr-5">
-			<label class="text-xl my-2 block" for="">Специальность</label>
+			<label class="text-xl my-2 block" for="">${tr.i18n('Speciality')}</label>
 			<input data-label="specialisation" class="border w-full border-gray-300 block focus:ring-purple-600" type="text" value="">
 		</div>
 		<div>
-			<label class="text-xl my-2 block" for="">Период обучения</label>
+			<label class="text-xl my-2 block" for="">${tr.i18n('Education period')}</label>
 			<input  data-label="period" class="border w-full border-gray-300 block focus:ring-purple-600" type="text" value="">
 		</div>
 		</div>`;
@@ -259,7 +259,7 @@ $(function(){
 			$('.form-tab[data-id="'+currentFormTab+'"]').addClass('active');
 			$('.form-step li[data-id="'+currentFormTab+'"]').addClass('active');
 		}else{
-			$('.resume-err').html('Заполнены не все поля! Проверьте заполнение полей.');
+			$('.resume-err').html(tr.i18n('Not all fields are filled! Check the fields.'));
 			$('.resume-err').fadeIn();
 
 		}
@@ -352,10 +352,10 @@ $(function(){
 			dataType : 'json',
 			success: function(data){
 
-				if( data['status'] == "success" ) {
+				if( data['status'] === "success" ) {
 					location.href = `/tests/proccess/${companyId}/${code}`;
 				} else {
-					Message.showSuccess('Ошибка','Ошибка получения ответа сервера','Ок');
+                    Message.showSuccess(tr.i18n('Error'), tr.i18n('Error getting server response'),tr.i18n('Ok'));
 				}
 			},
 			error : function(e) {
@@ -413,7 +413,7 @@ $(function(){
 				$('.pagination-wrap').html('');
 				clearInterval(timer);
 				$('#timer').fadeOut();
-				$('.test-wrap').html('Спасибо! Тестирование завершено.')
+				$('.test-wrap').html(tr.i18n('Thanks! Testing completed'))
 			},
 			error : function(e) {
 
@@ -453,7 +453,7 @@ $(function(){
 				if(data) {
 					$('.test-wrap').html(data);
 				}else{
-					Message.showSuccess('Ошибка','Ошибка получения ответа сервера','Ок');
+					Message.showSuccess(tr.i18n('Error'), tr.i18n('Error getting server response'),tr.i18n('Ok'));
 				}
 			},
 			error : function(e) {

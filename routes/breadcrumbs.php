@@ -1,13 +1,13 @@
 <?php
 // Home
 Breadcrumbs::for('dashboard', function ($trail) {
-    $trail->push('Главная', route('dashboard'));
+    $trail->push(__('breadcrumbs.Home'), route('dashboard'));
 });
 
 // Forms
 Breadcrumbs::for('forms.list', function ($trail) {
     $trail->parent('dashboard');
-    $trail->push('Формы', route('forms.list'));
+    $trail->push(__('breadcrumbs.Forms'), route('forms.list'));
 });
 
 // Forms detail
@@ -19,19 +19,19 @@ Breadcrumbs::for('forms.detail', function ($trail, $form) {
 // Forms create
 Breadcrumbs::for('forms.create', function ($trail) {
     $trail->parent('forms.list');
-    $trail->push('Создание формы', route('forms.create'));
+    $trail->push(__('breadcrumbs.Form_create'), route('forms.create'));
 });
 
 // Forms create
 Breadcrumbs::for('forms.edit', function ($trail, $form) {
     $trail->parent('forms.list');
-    $trail->push('Редактирование формы «‎'.$form->name.'»', route('forms.edit', $form->id));
+    $trail->push(__('breadcrumbs.Form_edit').'«‎'.$form->name.'»', route('forms.edit', $form->id));
 });
 
 // Resume
 Breadcrumbs::for('resume.list', function ($trail) {
     $trail->parent('dashboard');
-    $trail->push('Резюме', route('resume.list'));
+    $trail->push(__('breadcrumbs.Resume'), route('resume.list'));
 });
 
 // Resume detail
@@ -43,9 +43,9 @@ Breadcrumbs::for('resume.detail', function ($trail, $resume) {
 // Interviews
 Breadcrumbs::for('interviews.list', function ($trail) {
     $trail->parent('dashboard');
-    $trail->push('Собеседования', route('interviews.list'));
+    $trail->push(__('breadcrumbs.Interviews'), route('interviews.list'));
 });
- 
+
 // Interviews detail
 Breadcrumbs::for('interviews.detail', function ($trail, $interview, $interviewId) {
     $trail->parent('interviews.list');
@@ -56,7 +56,7 @@ Breadcrumbs::for('interviews.detail', function ($trail, $interview, $interviewId
 // Tests
 Breadcrumbs::for('tests.list', function ($trail) {
     $trail->parent('dashboard');
-    $trail->push('Тесты', route('tests.list'));
+    $trail->push(__('breadcrumbs.Tests'), route('tests.list'));
 });
 
 
@@ -70,13 +70,13 @@ Breadcrumbs::for('tests.detail', function ($trail, $test) {
 // questions
 Breadcrumbs::for('questions.list', function ($trail) {
     $trail->parent('dashboard');
-    $trail->push('Банк вопросов', route('questions.list'));
+    $trail->push(__('breadcrumbs.Questions'), route('questions.list'));
 });
 
 // questions edit
 Breadcrumbs::for('questions.edit', function ($trail, $question) {
     $trail->parent('questions.list');
-    $trail->push('Редактирование вопроса', route('questions.edit', $question->id));
+    $trail->push(__('breadcrumbs.Question_edit'), route('questions.edit', $question->id));
 });
 
 
